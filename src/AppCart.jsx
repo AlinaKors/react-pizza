@@ -1,13 +1,13 @@
-import IconDelete from '/public/img/cartDelete.svg?react';
-import IconAdd from '/public/img/plus.svg?react';
-import IconBack from '/public/img/back.svg?react';
-import IconMinus from '/public/img/minus.svg?react';
+import IconDelete from './assets/img/cartDelete.svg?react';
+import IconAdd from './assets/img/plus.svg?react';
+import IconBack from './assets/img/back.svg?react';
+import IconMinus from './assets/img/minus.svg?react';
 export default function AppCart() {
   return (
     <div className="wrapper">
       <header>
         <div className="logo">
-          <img src="img/logo.png" alt="small pizza" />
+          <img src="src/assets/img/logo.png" alt="small pizza" />
           <div className="logoName">
             <span>PIZZA PET</span>
             <p>это самая удивительная пицца</p>
@@ -16,7 +16,7 @@ export default function AppCart() {
         <div className="cartContaner">
           <div className="price">520 ₽</div>
           <div className="cart">
-            <img src="img/cart.svg" alt="cart icon" />
+            <img src="src/assets/img/cart.svg" alt="cart icon" />
             <span>3</span>
           </div>
         </div>
@@ -24,7 +24,7 @@ export default function AppCart() {
       <div className="cartWrapper">
         <div className="cartTop">
           <div className="cartName">
-            <img src="img/cartBig.png" alt="cart icon" />
+            <img src="src/assets/img/cartBig.png" alt="cart icon" />
             <h1>Корзина</h1>
           </div>
           <button className="deleteItems">
@@ -36,73 +36,7 @@ export default function AppCart() {
           <ul>
             <li>
               <div className="cartItemInfo">
-                <img src="img/pizza1.jpg" alt="pizza" />
-                <div className="namePizza">
-                  <h2>Сырный цыпленок</h2>
-                  <p>тонкое тесто, 26 см.</p>
-                </div>
-              </div>
-              <div className="countBlock">
-                <button className="minus">
-                  <IconMinus />
-                </button>
-                <h2>2</h2>
-                <button className="plus">
-                  <IconAdd />
-                </button>
-              </div>
-              <h2 className="price">770 ₽</h2>
-              <button className="deleteBtn">
-                <IconAdd />
-              </button>
-            </li>
-            <li>
-              <div className="cartItemInfo">
-                <img src="img/pizza1.jpg" alt="pizza" />
-                <div className="namePizza">
-                  <h2>Сырный цыпленок</h2>
-                  <p>тонкое тесто, 26 см.</p>
-                </div>
-              </div>
-              <div className="countBlock">
-                <button className="minus">
-                  <IconMinus />
-                </button>
-                <h2>2</h2>
-                <button className="plus">
-                  <IconAdd />
-                </button>
-              </div>
-              <h2 className="price">770 ₽</h2>
-              <button className="deleteBtn">
-                <IconAdd />
-              </button>
-            </li>
-            <li>
-              <div className="cartItemInfo">
-                <img src="img/pizza1.jpg" alt="pizza" />
-                <div className="namePizza">
-                  <h2>Сырный цыпленок</h2>
-                  <p>тонкое тесто, 26 см.</p>
-                </div>
-              </div>
-              <div className="countBlock">
-                <button className="minus">
-                  <IconMinus />
-                </button>
-                <h2>2</h2>
-                <button className="plus">
-                  <IconAdd />
-                </button>
-              </div>
-              <h2 className="price">770 ₽</h2>
-              <button className="deleteBtn">
-                <IconAdd />
-              </button>
-            </li>
-            <li>
-              <div className="cartItemInfo">
-                <img src="img/pizza1.jpg" alt="pizza" />
+                <img src="src/assets/img/pizza1.jpg" alt="pizza" />
                 <div className="namePizza">
                   <h2>Сырный цыпленок</h2>
                   <p>тонкое тесто, 26 см.</p>
