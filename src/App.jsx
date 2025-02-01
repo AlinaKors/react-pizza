@@ -1,7 +1,6 @@
 import { Header } from './components/Header';
 import { Categories } from './components/Categories';
-
-import IconAdd from './assets/img/plus.svg?react';
+import { PizzaItems } from './components/PizzaItems';
 
 function App() {
   return (
@@ -23,7 +22,9 @@ function App() {
           </div>
         </div>
         <h1>Все пиццы</h1>
-        <div className="pizzaWrapper"></div>
+        <div className="pizzaWrapper">
+          <PizzaItems />
+        </div>
       </main>
     </div>
   );
