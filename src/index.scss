@@ -140,7 +140,8 @@ main {
       text-wrap: nowrap;
       font-weight: 400;
       transition: background-color 0.3s;
-      &:hover {
+      &:hover,
+      &.isActive {
         background-color: #fe5f1e0d;
         color: #fe5f1e;
         font-weight: 700;
@@ -171,10 +172,10 @@ main {
     font-weight: 700;
     line-height: 17.05px;
     letter-spacing: 0.015em;
-    cursor: pointer;
     span {
       color: #fe5f1e;
       border-bottom: 1px dotted #fe5f1e;
+      cursor: pointer;
     }
   }
 }
