@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+
+import { PizzaContext } from '../context';
 
 export const Sort = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [sort, setSort] = useState('популярности');
+  const { desc, sort, setSort, setDesc, sortBy } = useContext(PizzaContext);
 
-  const sortBy = ['популярности', 'цене', 'алфавиту'];
+  const [isOpen, setIsOpen] = useState(false);
 
   const onSetSort = (item) => {
     setIsOpen(false);
@@ -13,21 +14,18 @@ export const Sort = () => {
 
   return (
     <div className="sort">
-      <div
-        className={isOpen ? 'triangle' : 'triangle close'}
-        onClick={() => setIsOpen(!isOpen)}
-      ></div>
+      <div className={desc ? 'triangle desc' : 'triangle'} onClick={() => setDesc(!desc)}></div>
       <div className="sortBy">
-        Сортировка по: <span onClick={() => setIsOpen(!isOpen)}>{sort}</span>
+        Сортировка по: <span onClick={() => setIsOpen(!isOpen)}>{sortBy[sort]}</span>
       </div>
       <ul className={isOpen ? '' : 'close'}>
-        {sortBy.map((item) => (
+        {sortBy.map((item, index) => (
           <li
             key={item}
-            onClick={() => onSetSort(item)}
-            className={sort === item ? 'isActive' : ''}
+            onClick={() => onSetSort(index)}
+            className={sort === index ? 'isActive' : ''}
           >
-            {item}
+            {sortBy[index]}
           </li>
         ))}
       </ul>

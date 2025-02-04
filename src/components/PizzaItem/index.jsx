@@ -1,21 +1,21 @@
 import { Fragment, useState } from 'react';
 
-import IconAdd from '../assets/img/plus.svg?react';
-
-export const PizzaItems = ({ imageUrl, title, types, id, sizes, price }) => {
+import IconAdd from '../../assets/img/plus.svg?react';
+import styles from './PizzaItem.module.scss';
+export const PizzaItem = ({ imageUrl, title, types, id, sizes, price }) => {
   const typePizza = ['традиционное', 'тонкое'];
 
   const [sizeInput, setSizeInput] = useState(0);
   const [typeInput, setTypeInput] = useState(0);
 
   return (
-    <li>
+    <li className={styles.pizzaItem}>
       <picture>
         <img src={imageUrl} alt="pizza" />
       </picture>
       <h3>{title}</h3>
-      <div className="doughChoise">
-        <div className="type">
+      <div className={styles.doughChoise}>
+        <div className={styles.type}>
           {types.map((type) => (
             <Fragment key={typePizza[type].toString() + id}>
               <input
@@ -30,7 +30,7 @@ export const PizzaItems = ({ imageUrl, title, types, id, sizes, price }) => {
             </Fragment>
           ))}
         </div>
-        <div className="size">
+        <div className={styles.size}>
           {sizes.map((size, index) => (
             <Fragment key={size.toString() + id}>
               <input
@@ -46,12 +46,12 @@ export const PizzaItems = ({ imageUrl, title, types, id, sizes, price }) => {
           ))}
         </div>
       </div>
-      <div className="addContainer">
+      <div className={styles.addContainer}>
         <h2>от {price} ₽</h2>
-        <div className="addBtn">
+        <div className={styles.addBtn}>
           <IconAdd />
           <span>Добавить</span>
-          {/* <div className="countItem">
+          {/* <div className={styles.countItem}>
                 <span>2</span>
               </div> */}
         </div>

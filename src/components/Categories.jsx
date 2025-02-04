@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import { useContext } from 'react';
+import { PizzaContext } from '../context';
 export const Categories = () => {
-  const [selectedCategory, setSelectedCategory] = useState('Все');
+  const { categories, selectedCategory, setSelectedCategory } = useContext(PizzaContext);
 
-  const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
   return (
     <ul className="categories">
-      {categories.map((category) => (
+      {categories.map((category, index) => (
         <li
           key={category}
-          className={selectedCategory == category ? 'isActive' : ''}
-          onClick={() => setSelectedCategory(category)}
+          className={selectedCategory == index ? 'isActive' : ''}
+          onClick={() => setSelectedCategory(index)}
         >
           {category}
         </li>
