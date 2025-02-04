@@ -16,16 +16,16 @@ export const Sort = () => {
     <div className="sort">
       <div className={desc ? 'triangle desc' : 'triangle'} onClick={() => setDesc(!desc)}></div>
       <div className="sortBy">
-        Сортировка по: <span onClick={() => setIsOpen(!isOpen)}>{sortBy[sort]}</span>
+        Сортировка по: <span onClick={() => setIsOpen(!isOpen)}>{sort.name}</span>
       </div>
       <ul className={isOpen ? '' : 'close'}>
-        {sortBy.map((item, index) => (
+        {sortBy.map((sortItem) => (
           <li
-            key={item}
-            onClick={() => onSetSort(index)}
-            className={sort === index ? 'isActive' : ''}
+            key={sortItem.name}
+            onClick={() => onSetSort(sortItem)}
+            className={sort.name === sortItem.name ? 'isActive' : ''}
           >
-            {sortBy[index]}
+            {sortItem.name}
           </li>
         ))}
       </ul>

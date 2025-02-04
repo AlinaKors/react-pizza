@@ -12,23 +12,27 @@ export const Home = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const [sort, setSort] = useState(0);
+  const [sort, setSort] = useState({ name: 'популярности', sortParams: 'rating' });
   const [desc, setDesc] = useState(false);
 
   const [selectedCategory, setSelectedCategory] = useState(0);
 
   const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые'];
 
-  const sortBy = ['популярности', 'цене', 'алфавиту'];
-  const sortByEng = ['rating', 'price', 'title'];
+  const sortBy = [
+    { name: 'популярности', sortParams: 'rating' },
+    { name: 'цене', sortParams: 'price' },
+    { name: 'алфавиту', sortParams: 'title' },
+  ];
 
   useEffect(() => {
     (async () => {
       try {
+        setLoading(false);
         const { data } = await axios.get(
           `https://31f63cbf290f51e3.mokky.dev/pizzas?category=${
             selectedCategory === 0 ? '*' : selectedCategory
-          }&sortBy=${desc ? '-' + sortByEng[sort] : sortByEng[sort]}`,
+          }&sortBy=${desc ? '-' + sort.sortParams : sort.sortParams}`,
         );
         setPizzas(data);
         setLoading(true);
