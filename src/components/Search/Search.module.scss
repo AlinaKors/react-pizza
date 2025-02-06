@@ -1,0 +1,33 @@
+.search {
+  border: 1px solid #eb5a1e;
+  border-radius: 20px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 300px;
+  padding: 8px 10px;
+  margin-right: 12px;
+
+  @media (max-width: 768px) {
+    flex-basis: content;
+    order: 2;
+    margin-top: 12px;
+    flex-grow: 1;
+    justify-self: center;
+    max-width: none;
+    margin-right: 0px;
+  }
+  input {
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0px 8px;
+  }
+  .clearInput {
+    cursor: pointer;
+  }
+}

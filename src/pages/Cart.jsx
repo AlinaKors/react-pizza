@@ -3,6 +3,8 @@ import IconAdd from '../assets/img/plus.svg?react';
 import IconBack from '../assets/img/back.svg?react';
 import IconMinus from '../assets/img/minus.svg?react';
 
+import EmptyCart from '../components/EmptyCart';
+
 export const Cart = () => {
   return (
     <div className="cartWrapper">

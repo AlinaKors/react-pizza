@@ -7,16 +7,7 @@ import { Sort } from '../components/Sort';
 import { SkeletonBlock } from '../components/PizzaItem/SkeletonBlock';
 
 import { PizzaContext } from '../context';
-export const Home = () => {
-  const [pizzas, setPizzas] = useState([]);
-
-  const [loading, setLoading] = useState(false);
-
-  const [sort, setSort] = useState({ name: 'популярности', sortParams: 'rating' });
-  const [desc, setDesc] = useState(false);
-
-  const [selectedCategory, setSelectedCategory] = useState(0);
-
+export const Home = ({ search }) => {
   const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые'];
 
   const sortBy = [
@@ -25,14 +16,22 @@ export const Home = () => {
     { name: 'алфавиту', sortParams: 'title' },
   ];
 
+  const [pizzas, setPizzas] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [sort, setSort] = useState({ name: 'популярности', sortParams: 'rating' });
+  const [desc, setDesc] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(0);
+
+  const sortCategory = selectedCategory === 0 ? '*' : selectedCategory;
+  const sortByParams = desc ? '-' + sort.sortParams : sort.sortParams;
+  const searchInput = search ? `&title=*${search}` : '';
+
   useEffect(() => {
     (async () => {
       try {
         setLoading(false);
         const { data } = await axios.get(
-          `https://31f63cbf290f51e3.mokky.dev/pizzas?category=${
-            selectedCategory === 0 ? '*' : selectedCategory
-          }&sortBy=${desc ? '-' + sort.sortParams : sort.sortParams}`,
+          `https://31f63cbf290f51e3.mokky.dev/pizzas?category=${sortCategory}&sortBy=${sortByParams}${searchInput}`,
         );
         setPizzas(data);
         setLoading(true);
@@ -41,7 +40,7 @@ export const Home = () => {
         console.error(error);
       }
     })();
-  }, [desc, sort, selectedCategory]);
+  }, [desc, sort, selectedCategory, search]);
 
   return (
     <PizzaContext.Provider

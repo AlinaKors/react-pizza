@@ -1,6 +1,8 @@
 import { useState, useContext } from 'react';
 
-import { PizzaContext } from '../context';
+import { PizzaContext } from '../../context';
+
+import styles from './Sort.module.scss';
 
 export const Sort = () => {
   const { desc, sort, setSort, setDesc, sortBy } = useContext(PizzaContext);
@@ -13,17 +15,20 @@ export const Sort = () => {
   };
 
   return (
-    <div className="sort">
-      <div className={desc ? 'triangle desc' : 'triangle'} onClick={() => setDesc(!desc)}></div>
-      <div className="sortBy">
+    <div className={styles.sort}>
+      <div
+        className={desc ? `${styles.triangle} ${styles.desc}` : styles.triangle}
+        onClick={() => setDesc(!desc)}
+      ></div>
+      <div className={styles.sortBy}>
         Сортировка по: <span onClick={() => setIsOpen(!isOpen)}>{sort.name}</span>
       </div>
-      <ul className={isOpen ? '' : 'close'}>
+      <ul className={isOpen ? '' : styles.close}>
         {sortBy.map((sortItem) => (
           <li
             key={sortItem.name}
             onClick={() => onSetSort(sortItem)}
-            className={sort.name === sortItem.name ? 'isActive' : ''}
+            className={sort.name === sortItem.name ? styles.isActive : ''}
           >
             {sortItem.name}
           </li>
