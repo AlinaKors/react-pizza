@@ -353,3 +353,19 @@ h3 {
     }
   }
 }
+
+.MuiPagination-outlined {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .MuiPaginationItem-outlined {
+    color: #eb5a1e !important;
+    border: 1px solid #eb5a1e !important;
+    font-weight: 700;
+  }
+
+  .MuiPaginationItem-ellipsis {
+    border: none !important;
+  }
+}

@@ -7,7 +7,7 @@ import { NotFound } from './pages/NotFound';
 
 import { SearchContext } from './context';
 
-import { useState } from 'react';
+import { useState, useDeferredValue } from 'react';
 
 function App() {
   const [search, setSearch] = useState('');

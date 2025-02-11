@@ -1,24 +1,32 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { PizzaContext } from '../../context';
+import { changeSort, toggleSort } from '../../redux/slices/filterSlice';
 
 import styles from './Sort.module.scss';
 
 export const Sort = () => {
-  const { desc, sort, setSort, setDesc, sortBy } = useContext(PizzaContext);
-
+  const sortBy = [
+    { name: 'популярности', sortParams: 'rating' },
+    { name: 'цене', sortParams: 'price' },
+    { name: 'алфавиту', sortParams: 'title' },
+  ];
   const [isOpen, setIsOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const desc = useSelector((state) => state.filter.desc);
+  const sort = useSelector((state) => state.filter.sort);
 
   const onSetSort = (item) => {
     setIsOpen(false);
-    setSort(item);
+    dispatch(changeSort(item));
   };
 
   return (
     <div className={styles.sort}>
       <div
         className={desc ? `${styles.triangle} ${styles.desc}` : styles.triangle}
-        onClick={() => setDesc(!desc)}
+        onClick={() => dispatch(toggleSort(!desc))}
       ></div>
       <div className={styles.sortBy}>
         Сортировка по: <span onClick={() => setIsOpen(!isOpen)}>{sort.name}</span>

@@ -1,9 +1,13 @@
-import { useContext } from 'react';
-import { PizzaContext } from '../../context';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { changeCategory } from '../../redux/slices/filterSlice';
 
 import styles from './Categories.module.scss';
 export const Categories = () => {
-  const { categories, selectedCategory, setSelectedCategory } = useContext(PizzaContext);
+  const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые'];
+
+  const selectedCategory = useSelector((state) => state.filter.category);
+  const dispatch = useDispatch();
 
   return (
     <ul className={styles.categories}>
@@ -11,7 +15,7 @@ export const Categories = () => {
         <li
           key={category}
           className={selectedCategory == index ? styles.isActive : ''}
-          onClick={() => setSelectedCategory(index)}
+          onClick={() => dispatch(changeCategory(index))}
         >
           {category}
         </li>
