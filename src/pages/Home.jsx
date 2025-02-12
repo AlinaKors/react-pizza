@@ -3,12 +3,14 @@ import { useEffect, useState } from 'react';
 import { Pagination } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router';
 
 import { Categories } from '../components/Categories';
 import { PizzaItem } from '../components/PizzaItem';
 import { Sort } from '../components/Sort';
 import { SkeletonBlock } from '../components/PizzaItem/SkeletonBlock';
 
+import { setCurrentPage } from '../redux/slices/filterSlice';
 import { setPizzaItems } from '../redux/slices/pizzaSlice';
 
 const theme = createTheme({
@@ -18,15 +20,20 @@ const theme = createTheme({
     },
   },
 });
-export const Home = ({ search }) => {
+export const Home = () => {
+  const location = useLocation();
+
+  console.log('pathname:', location);
+
   const [loading, setLoading] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
   const dispatch = useDispatch();
   const pizzas = useSelector((state) => state.pizza.items);
-  const { selectedCategory, desc, sort } = useSelector((state) => state.filter);
+  const { selectedCategory, desc, sort, search, currentPage } = useSelector(
+    (state) => state.filter,
+  );
 
   const sortCategory = selectedCategory === 0 ? '*' : selectedCategory;
   const sortByParams = desc ? '-' + sort.sortParams : sort.sortParams;
@@ -69,7 +76,7 @@ export const Home = ({ search }) => {
           count={totalPages}
           variant="outlined"
           color="primary"
-          onChange={(_, page) => setCurrentPage(page)}
+          onChange={(_, page) => dispatch(setCurrentPage(page))}
         />
       </ThemeProvider>
     </main>

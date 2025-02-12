@@ -5,20 +5,12 @@ import { Home } from './pages/Home';
 import { Cart } from './pages/Cart';
 import { NotFound } from './pages/NotFound';
 
-import { SearchContext } from './context';
-
-import { useState, useDeferredValue } from 'react';
-
 function App() {
-  const [search, setSearch] = useState('');
-
   return (
     <div className="wrapper">
-      <SearchContext.Provider value={{ search, setSearch }}>
-        <Header />
-      </SearchContext.Provider>
+      <Header />
       <Routes>
-        <Route path="/" element={<Home search={search} />} />
+        <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

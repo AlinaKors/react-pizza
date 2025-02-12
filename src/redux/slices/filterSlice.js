@@ -6,6 +6,8 @@ export const filterSlice = createSlice({
     sort: { name: 'популярности', sortParams: 'rating' },
     selectedCategory: 0,
     desc: false,
+    currentPage: 1,
+    search: '',
   },
   reducers: {
     changeSort: (state, actions) => {
@@ -17,10 +19,16 @@ export const filterSlice = createSlice({
     toggleSort: (state) => {
       state.desc = !state.desc;
     },
+    setSearch: (state, actions) => {
+      state.search = actions.payload;
+    },
+    setCurrentPage: (state, actions) => {
+      state.currentPage = actions.payload;
+    },
   },
 });
 
-// Функция действия генерируется на каждую функцию релюсера(reducer), определённую в createSlice
-export const { changeSort, changeCategory, toggleSort } = filterSlice.actions;
+export const { changeSort, changeCategory, toggleSort, setSearch, setCurrentPage } =
+  filterSlice.actions;
 
 export default filterSlice.reducer;
