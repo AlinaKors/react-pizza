@@ -2,15 +2,10 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { changeSort, toggleSort } from '../../redux/slices/filterSlice';
+import { sortBy } from '../../assets/initialParams';
 
 import styles from './Sort.module.scss';
-
 export const Sort = () => {
-  const sortBy = [
-    { name: 'популярности', sortParams: 'rating' },
-    { name: 'цене', sortParams: 'price' },
-    { name: 'алфавиту', sortParams: 'title' },
-  ];
   const [isOpen, setIsOpen] = useState(false);
 
   const dispatch = useDispatch();
