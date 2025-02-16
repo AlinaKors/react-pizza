@@ -1,9 +1,9 @@
 export const initialParams = {
-  sort: { name: 'популярности', sortParams: 'rating' },
   selectedCategory: 0,
   desc: false,
   currentPage: 1,
   search: '',
+  sort: { name: 'популярности', sortParams: 'rating' },
 };
 
 export const sortBy = [

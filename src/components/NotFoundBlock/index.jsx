@@ -14,7 +14,7 @@ export const NotFoundPizzas = () => {
   return (
     <div className={styles.notFoundBlock}>
       <h1>К сожалению, пицца не найдена</h1>
-      <p>Извинити, но данной пиццы в этой категории нету :с</p>
+      <p>Извините, но данной пиццы в этой категории нету :с</p>
     </div>
   );
 };

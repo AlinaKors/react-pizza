@@ -12,6 +12,7 @@ import { Sort } from '../components/Sort';
 import { SkeletonBlock } from '../components/PizzaItem/SkeletonBlock';
 import { NotFoundPizzas } from '../components/NotFoundBlock';
 import { initialParams } from '../assets/initialParams';
+import { isEqual } from '../assets/isEqual';
 
 import { setCurrentPage, setInitialFilter } from '../redux/slices/filterSlice';
 import { setPizzaItems } from '../redux/slices/pizzaSlice';
@@ -27,8 +28,6 @@ const theme = createTheme({
 export const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const isFirstRender = useRef(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -79,16 +78,9 @@ export const Home = () => {
 
   useEffect(() => {
     getPizzas();
-    const isInitial =
-      selectedCategory === 0 &&
-      currentPage === 1 &&
-      !desc &&
-      !search &&
-      sort.name === 'популярности' &&
-      sort.sortParams === 'rating' &&
-      isFirstRender.current;
-    isInitial ? navigate('') : navigate(`?${getParamsFilter()}`);
-    return () => (isFirstRender.current = true);
+    isEqual(initialParams, { selectedCategory, desc, sort, search, currentPage })
+      ? navigate('')
+      : navigate(`?${getParamsFilter()}`);
   }, [selectedCategory, desc, sort, currentPage, search]);
 
   const pizzasBlock = pizzas.map((pizzaItem) => <PizzaItem {...pizzaItem} key={pizzaItem.id} />);
