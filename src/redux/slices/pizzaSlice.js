@@ -4,6 +4,7 @@ export const pizzaSlice = createSlice({
   name: 'pizza',
   initialState: {
     items: [],
+    addProducts: [],
   },
   reducers: {
     setPizzaItems: (state, action) => {

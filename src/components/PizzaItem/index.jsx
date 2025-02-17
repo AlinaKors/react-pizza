@@ -1,12 +1,35 @@
 import { Fragment, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { addProduct } from '../../redux/slices/cartSlice';
 
 import IconAdd from '../../assets/img/plus.svg?react';
 import styles from './PizzaItem.module.scss';
 export const PizzaItem = ({ imageUrl, title, types, id, sizes, price }) => {
+  const dispatch = useDispatch();
+
   const typePizza = ['традиционное', 'тонкое'];
 
   const [sizeInput, setSizeInput] = useState(0);
   const [typeInput, setTypeInput] = useState(0);
+
+  const testing = useSelector((state) => state.cart.addProducts);
+
+  console.log(testing);
+
+  const handleAddToCart = () => {
+    const product = {
+      [id.toString() + sizes[sizeInput] + types[typeInput]]: {
+        id,
+        title,
+        price,
+        size: sizes[sizeInput],
+        type: types[typeInput],
+        count: 1,
+      },
+    };
+    dispatch(addProduct(product));
+  };
 
   return (
     <li className={styles.pizzaItem}>
@@ -48,13 +71,13 @@ export const PizzaItem = ({ imageUrl, title, types, id, sizes, price }) => {
       </div>
       <div className={styles.addContainer}>
         <h2>от {price} ₽</h2>
-        <div className={styles.addBtn}>
+        <button className={styles.addBtn} onClick={handleAddToCart}>
           <IconAdd />
           <span>Добавить</span>
           {/* <div className={styles.countItem}>
                 <span>2</span>
               </div> */}
-        </div>
+        </button>
       </div>
     </li>
   );
