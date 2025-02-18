@@ -1,9 +1,12 @@
 import { Link } from 'react-router';
+import { useSelector } from 'react-redux';
 
 import { Search } from '../Search';
 import styles from './Header.module.scss';
 
 export const Header = () => {
+  const { totalPrice, totalItems } = useSelector((state) => state.cart);
+
   return (
     <header>
       <Link to="/">
@@ -18,10 +21,10 @@ export const Header = () => {
       <Search />
       <Link to="/cart">
         <div className={styles.cartContaner}>
-          <div className={styles.price}>520 ₽</div>
+          <div className={styles.price}>{totalPrice} ₽</div>
           <div className={styles.cart}>
             <img src="src/assets/img/cart.svg" alt="cart icon" />
-            <span>3</span>
+            <span>{totalItems}</span>
           </div>
         </div>
       </Link>

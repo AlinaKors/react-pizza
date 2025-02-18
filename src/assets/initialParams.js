@@ -11,3 +11,5 @@ export const sortBy = [
   { name: 'цене', sortParams: 'price' },
   { name: 'алфавиту', sortParams: 'title' },
 ];
+
+export const typePizza = ['традиционное', 'тонкое'];
