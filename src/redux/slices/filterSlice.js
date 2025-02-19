@@ -30,7 +30,7 @@ const getInitialState = () => {
   return initialParams;
 };
 
-export const filterSlice = createSlice({
+const filterSlice = createSlice({
   name: 'filter',
   initialState: getInitialState(),
   reducers: {
