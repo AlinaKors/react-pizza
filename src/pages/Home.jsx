@@ -1,20 +1,20 @@
-import { useEffect } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { Pagination } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router';
-import qs from 'qs';
+import { useSearchParams } from 'react-router';
 
 import { Categories } from '../components/Categories';
 import { PizzaItem } from '../components/PizzaItem';
 import { Sort } from '../components/Sort';
 import { SkeletonBlock } from '../components/PizzaItem/SkeletonBlock';
 import { NotFoundPizzas } from '../components/NotFoundBlock';
-import { initialParams } from '../assets/initialParams';
+import { initialParams, sortBy } from '../assets/initialParams';
 import { isEqual } from '../assets/isEqual';
 
 import { setCurrentPage, setInitialFilter } from '../redux/slices/filterSlice';
-import { fetchPizzas } from '../redux/slices/pizzaSlice';
+import { setPizzaItems } from '../redux/slices/pizzaSlice';
 
 const theme = createTheme({
   palette: {
@@ -25,18 +25,34 @@ const theme = createTheme({
 });
 
 export const Home = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { items, status, totalPage } = useSelector((state) => state.pizza);
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const { selectedCategory, desc, sort, search, currentPage } = useSelector(
     (state) => state.filter,
   );
 
+  const [loading, setLoading] = useState(false);
+
+  const [totalPages, setTotalPages] = useState(0);
+
+  const pizzas = useSelector((state) => state.pizza.items);
+
   const getPizzas = async () => {
-    await dispatch(fetchPizzas(getParamsFilter()));
-    console.log('checking', status === 'success', totalPage);
-    totalPage < currentPage && dispatch(setCurrentPage(1));
+    try {
+      setLoading(false);
+      const { data } = await axios.get(
+        `https://31f63cbf290f51e3.mokky.dev/pizzas?limit=4&${searchParams}`,
+      );
+      dispatch(setPizzaItems(data.items));
+      setTotalPages(data.meta.total_pages);
+      data.meta.total_pages < currentPage && dispatch(setCurrentPage(1));
+      setLoading(true);
+    } catch (error) {
+      console.log('Не удалось загрузить пиццы :с');
+      console.error(error);
+    }
   };
 
   const getParamsFilter = () => {
@@ -45,31 +61,64 @@ export const Home = () => {
     const searchInput = search ? `*${search}` : '*';
     const pageParams = currentPage > 1 ? `${currentPage}` : '1';
 
-    const params = qs.stringify({
+    setSearchParams({
       category: sortCategory,
       sortBy: sortByParams,
       page: pageParams,
       title: searchInput,
     });
+  };
 
-    return params;
+  const emptyParams = () => {
+    setSearchParams({});
+  };
+
+  const setSort = (sortParams) => {
+    const sort = sortBy.find((obj) => obj.sortParams === sortParams);
+    return sort;
+  };
+
+  const getInitialState = () => {
+    const params = {};
+    searchParams.entries().forEach((el) => {
+      const [key, value] = el;
+      params[key] = value;
+    });
+    const initialState = {};
+    if (params.sortBy.includes('-')) {
+      initialState.desc = true;
+      initialState.sort = setSort(params.sortBy.slice(1));
+    } else {
+      initialState.desc = false;
+      initialState.sort = setSort(params.sortBy);
+    }
+    initialState.selectedCategory = params.category === '*' ? 0 : Number(params.category);
+    initialState.currentPage = Number(params.page);
+    initialState.search = params.title === '*' ? '' : params.title;
+    return initialState;
   };
 
   useEffect(() => {
-    if (!location.search) {
-      dispatch(setInitialFilter(initialParams));
+    if (searchParams.size) {
+      dispatch(setInitialFilter(getInitialState()));
     }
-  }, [location.search]);
+  }, []);
 
   useEffect(() => {
-    console.log('зашли');
     getPizzas();
-    isEqual(initialParams, { selectedCategory, desc, sort, search, currentPage })
-      ? navigate('')
-      : navigate(`?${getParamsFilter()}`);
-  }, [selectedCategory, desc, sort, currentPage, search]);
 
-  const pizzasBlock = items.map((pizzaItem) => <PizzaItem {...pizzaItem} key={pizzaItem.id} />);
+    if (!searchParams.size) {
+      dispatch(setInitialFilter(initialParams));
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    isEqual(initialParams, { selectedCategory, desc, sort, search, currentPage })
+      ? emptyParams()
+      : getParamsFilter();
+  }, [selectedCategory, desc, sort, search, currentPage]);
+
+  const pizzasBlock = pizzas.map((pizzaItem) => <PizzaItem {...pizzaItem} key={pizzaItem.id} />);
 
   const skeletons = [...new Array(8)].map((_, index) => <SkeletonBlock key={index} />);
 
@@ -81,12 +130,12 @@ export const Home = () => {
       </div>
       <h1>Все пиццы</h1>
       <div className="pizzaWrapper">
-        <ul>{status === 'success' ? pizzasBlock : skeletons}</ul>
+        <ul>{loading ? pizzasBlock : skeletons}</ul>
       </div>
       <ThemeProvider theme={theme}>
-        {totalPage > 0 ? (
+        {totalPages > 0 ? (
           <Pagination
-            count={totalPage}
+            count={totalPages}
             variant="outlined"
             color="primary"
             onChange={(_, page) => dispatch(setCurrentPage(page))}

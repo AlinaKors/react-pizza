@@ -10,16 +10,18 @@ export const Categories = () => {
   const dispatch = useDispatch();
 
   return (
-    <ul className={styles.categories}>
-      {categories.map((category, index) => (
-        <li
-          key={category}
-          className={selectedCategory == index ? styles.isActive : ''}
-          onClick={() => dispatch(changeCategory(index))}
-        >
-          {category}
-        </li>
-      ))}
-    </ul>
+    <nav>
+      <ul className={styles.categories}>
+        {categories.map((category, index) => (
+          <li
+            key={category}
+            className={selectedCategory == index ? styles.isActive : ''}
+            onClick={() => dispatch(changeCategory(index))}
+          >
+            {category}
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 };
