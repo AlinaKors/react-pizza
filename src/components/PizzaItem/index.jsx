@@ -21,7 +21,7 @@ export const PizzaItem = ({ imageUrl, title, types, id, sizes, price }) => {
       item: {
         id,
         title,
-        price,
+        price: price[sizes[sizeInput]],
         imageUrl,
         size: sizes[sizeInput],
         type: types[typeInput],
@@ -75,7 +75,7 @@ export const PizzaItem = ({ imageUrl, title, types, id, sizes, price }) => {
         </div>
       </div>
       <div className={styles.addContainer}>
-        <h2>от {price} ₽</h2>
+        <h2>от {price[sizes[sizeInput]]} ₽</h2>
         <button className={styles.addBtn} onClick={handleAddToCart}>
           <IconAdd />
           <span>Добавить</span>
