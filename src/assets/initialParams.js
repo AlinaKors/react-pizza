@@ -1,3 +1,4 @@
+//начальные значения параметров страницы
 export const initialParams = {
   selectedCategory: 0,
   desc: false,

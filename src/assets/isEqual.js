@@ -1,3 +1,4 @@
+//сравнение двух объектов
 export const isEqual = (x, y) => {
   return typeof x === 'object' && typeof x === typeof y
     ? Object.keys(x).length === Object.keys(y).length &&

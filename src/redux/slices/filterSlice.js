@@ -1,10 +1,37 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { initialParams } from '../../assets/initialParams';
+import { initialParams, sortBy } from '../../assets/initialParams';
+const setSort = (sortParams) => {
+  const sort = sortBy.find((obj) => obj.sortParams === sortParams);
+  return sort;
+};
+const getInitialState = () => {
+  const params = {};
+  const paramsQuery = new URLSearchParams(window.location.search);
+  if (paramsQuery.size) {
+    paramsQuery.entries().forEach((el) => {
+      const [key, value] = el;
+      params[key] = value;
+    });
+    const initialState = {};
+    if (params.sortBy.includes('-')) {
+      initialState.desc = true;
+      initialState.sort = setSort(params.sortBy.slice(1));
+    } else {
+      initialState.desc = false;
+      initialState.sort = setSort(params.sortBy);
+    }
+    initialState.selectedCategory = params.category === '*' ? 0 : Number(params.category);
+    initialState.currentPage = Number(params.page);
+    initialState.search = params.title === '*' ? '' : params.title;
+    return initialState;
+  }
+  return initialParams;
+};
 
 const filterSlice = createSlice({
   name: 'filter',
-  initialState: initialParams,
+  initialState: getInitialState(),
   reducers: {
     changeSort: (state, actions) => {
       state.sort = actions.payload;

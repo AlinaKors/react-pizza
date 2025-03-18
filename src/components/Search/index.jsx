@@ -1,7 +1,8 @@
 import styles from './Search.module.scss';
-import debounce from 'lodash.debounce';
+// import debounce from 'lodash.debounce';
 import { useRef, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { debounce } from '../../assets/debounce';
 
 import { setSearch } from '../../redux/slices/filterSlice';
 
@@ -21,12 +22,12 @@ export const Search = () => {
     dispatch(setSearch(e.target.value));
   };
 
-  const debouncedSearch = useCallback(debounce(onSearch, 300), []);
+  const debouncedSearch = useCallback(debounce(onSearch, 300), [onSearch]);
 
   return (
     <search className={styles.search}>
       <img src="src/assets/img/search.svg" className="searchIcon" alt="icon search" />
-      <input ref={inputRef} type="text" placeholder="Поиск..." onChange={debouncedSearch} />
+      <input ref={inputRef} type="search" placeholder="Поиск..." onChange={debouncedSearch} />
       {search && (
         <img
           src="src/assets/img/close.svg"
