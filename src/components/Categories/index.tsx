@@ -4,7 +4,7 @@ import { changeCategory } from '../../redux/slices/filterSlice';
 
 import styles from './Categories.module.scss';
 export const Categories = () => {
-  const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые'];
+  const categories: string[] = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые'];
 
   const selectedCategory = useSelector((state) => state.filter.selectedCategory);
   const dispatch = useDispatch();

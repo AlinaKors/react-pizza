@@ -24,14 +24,12 @@ const pizzaSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addCase(fetchByPizzas.pending, (state) => {
-      console.log('идет отправка запроса');
       state.items = [];
       state.meta = [];
       state.status = 'loading';
     });
 
     builder.addCase(fetchByPizzas.fulfilled, (state, action) => {
-      console.log('success');
       state.items = action.payload.items;
       state.meta = action.payload.meta;
       state.status = 'success';

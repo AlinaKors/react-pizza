@@ -9,9 +9,9 @@ import styles from './PizzaItem.module.scss';
 export const PizzaItem = ({ imageUrl, title, types, id, sizes, price }) => {
   const dispatch = useDispatch();
 
-  const [sizeInput, setSizeInput] = useState(0);
-  const [typeInput, setTypeInput] = useState(0);
-  const [addBtn, setAddBtn] = useState(false);
+  const [sizeInput, setSizeInput] = useState<number>(0);
+  const [typeInput, setTypeInput] = useState<number>(0);
+  const [addBtn, setAddBtn] = useState<boolean>(false);
 
   const countItems = useSelector((state) => state.cart.countItems);
 

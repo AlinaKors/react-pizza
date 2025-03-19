@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { useEffect, useState } from 'react';
 import { Pagination } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -32,14 +34,12 @@ export const Home = () => {
     (state) => state.filter,
   );
 
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   const { items, status } = useSelector((state) => state.pizza);
 
   const getPizzas = async () => {
     const { meta } = await dispatch(fetchByPizzas(searchParams)).unwrap();
-    console.log(meta);
-
     setTotalPages(meta.total_pages);
     meta.total_pages < currentPage && dispatch(setCurrentPage(1));
   };

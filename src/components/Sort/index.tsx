@@ -6,7 +6,7 @@ import { sortBy } from '../../assets/initialParams';
 
 import styles from './Sort.module.scss';
 export const Sort = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const isClickSort = useRef(null);
 
   const dispatch = useDispatch();
