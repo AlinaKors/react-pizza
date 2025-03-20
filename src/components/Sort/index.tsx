@@ -5,21 +5,28 @@ import { changeSort, toggleSort } from '../../redux/slices/filterSlice';
 import { sortBy } from '../../assets/initialParams';
 
 import styles from './Sort.module.scss';
+
+type SortType = {
+  name: string;
+  sortParams: string;
+};
+
 export const Sort = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const isClickSort = useRef(null);
+  const isClickSort = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
   const { sort, desc } = useSelector((state) => state.filter);
 
-  const onSetSort = (item) => {
+  const onSetSort = (item: SortType) => {
+    console.log('sort', item);
     setIsOpen(false);
     dispatch(changeSort(item));
   };
 
   useEffect(() => {
-    const handleClickOutsideSort = (e) => {
-      !e.composedPath().includes(isClickSort.current) && setIsOpen(false);
+    const handleClickOutsideSort = (e: MouseEvent) => {
+      isClickSort.current && !e.composedPath().includes(isClickSort.current) && setIsOpen(false);
     };
 
     document.body.addEventListener('click', handleClickOutsideSort);

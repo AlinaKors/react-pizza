@@ -10,15 +10,17 @@ export const Search = () => {
   const dispatch = useDispatch();
   const { search } = useSelector((state) => state.filter);
 
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const clearSearch = () => {
     dispatch(setSearch(''));
-    inputRef.current.focus();
-    inputRef.current.value = '';
+    if (inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.value = '';
+    }
   };
 
-  const onSearch = (e) => {
+  const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearch(e.target.value));
   };
 

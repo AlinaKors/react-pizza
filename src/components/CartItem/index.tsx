@@ -1,14 +1,31 @@
+import { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
 import styles from './CartItem.module.scss';
 
 import IconAdd from '../../assets/img/plus.svg?react';
+
 import IconMinus from '../../assets/img/minus.svg?react';
 import { typePizza } from '../../assets/initialParams';
 
 import { addProduct, deleteProduct, deleteAllProduct } from '../../redux/slices/cartSlice';
 
-export const CartItem = ({ product }) => {
+type CartItemProps = {
+  product: {
+    key: string;
+    item: {
+      count: number;
+      id: number;
+      imageUrl: string;
+      price: number;
+      size: number;
+      title: string;
+      type: number;
+    };
+  };
+};
+
+export const CartItem: FC<CartItemProps> = ({ product }) => {
   const dispatch = useDispatch();
 
   const { item } = product;
