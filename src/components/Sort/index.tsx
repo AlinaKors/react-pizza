@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { changeSort, toggleSort } from '../../redux/slices/filterSlice';
+import { changeSort, toggleSort } from '../../app/slices/filterSlice';
 import { sortBy } from '../../assets/initialParams';
 
 import styles from './Sort.module.scss';
+import { RootState } from '../../app/store';
 
 type SortType = {
   name: string;
@@ -16,10 +17,9 @@ export const Sort = () => {
   const isClickSort = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
-  const { sort, desc } = useSelector((state) => state.filter);
+  const { sort, desc } = useSelector((state: RootState) => state.filter);
 
   const onSetSort = (item: SortType) => {
-    console.log('sort', item);
     setIsOpen(false);
     dispatch(changeSort(item));
   };

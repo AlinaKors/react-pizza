@@ -1,12 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux';
 
-import { changeCategory } from '../../redux/slices/filterSlice';
+import { changeCategory } from '../../app/slices/filterSlice';
 
 import styles from './Categories.module.scss';
+import { RootState } from '../../app/store';
 export const Categories = () => {
-  const categories: string[] = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые'];
+  const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые'];
 
-  const selectedCategory = useSelector((state) => state.filter.selectedCategory);
+  const selectedCategory = useSelector((state: RootState) => state.filter.selectedCategory);
   const dispatch = useDispatch();
 
   return (

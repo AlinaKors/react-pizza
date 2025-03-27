@@ -1,13 +1,14 @@
 import { Link } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { clearCart } from '../redux/slices/cartSlice';
+import { clearCart } from '../app/slices/cartSlice';
 
 import IconDelete from '../assets/img/cartDelete.svg?react';
 import IconBack from '../assets/img/back.svg?react';
 
 import { EmptyCart } from '../components/EmptyCart';
 import { CartItem } from '../components/CartItem';
+import { RootState } from '../app/store';
 
 export const Cart = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ export const Cart = () => {
     dispatch(clearCart());
   };
 
-  const { totalPrice, items, totalItems } = useSelector((state) => state.cart);
+  const { totalPrice, items, totalItems } = useSelector((state: RootState) => state.cart);
 
   return totalItems ? (
     <div className="cartWrapper">

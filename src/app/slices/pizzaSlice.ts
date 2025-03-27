@@ -8,14 +8,46 @@ export const fetchByPizzas = createAsyncThunk('pizzas/fetchByPizzas', async (sea
   return data;
 });
 
+type Price = {
+  26?: number;
+  30?: number;
+  40?: number;
+};
+
+type Item = {
+  category: number;
+  id: number;
+  imageUrl: string;
+  price: Price;
+  rating: number;
+  sizes: number[];
+  title: string;
+  types: number[];
+};
+
+type Meta = {
+  current_page: number;
+  per_page: number;
+  remaining_count: number;
+  total_items: number;
+  total_pages: number;
+};
+
+interface IPizzaSliceState {
+  items: Item[];
+  meta: Meta[];
+  status: 'loading' | 'success' | 'error';
+}
+
+const initialState: IPizzaSliceState = {
+  items: [],
+  meta: [],
+  status: 'loading',
+};
+
 const pizzaSlice = createSlice({
   name: 'pizza',
-  initialState: {
-    items: [],
-    addProducts: [],
-    meta: [],
-    status: 'loading',
-  },
+  initialState,
   reducers: {
     setPizzaItems: (state, action) => {
       state.items = action.payload;

@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { addProduct } from '../../redux/slices/cartSlice';
+import type { RootState } from '../../app/store';
+import { addProduct } from '../../app/slices/cartSlice';
 
 import { typePizza } from '../../assets/initialParams';
 import IconAdd from '../../assets/img/plus.svg?react';
@@ -39,7 +39,7 @@ export const PizzaItem: FC<PizzaItemProps> = ({ imageUrl, title, types, id, size
   const [typeInput, setTypeInput] = useState<number>(0);
   const [addBtn, setAddBtn] = useState<boolean>(false);
 
-  const countItems = useSelector((state) => state.cart.countItems);
+  const countItems = useSelector((state: RootState) => state.cart.countItems);
 
   const handleAddToCart = () => {
     const product: ProductType = {

@@ -4,11 +4,12 @@ import { useRef, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { debounce } from '../../assets/debounce';
 
-import { setSearch } from '../../redux/slices/filterSlice';
+import { setSearch } from '../../app/slices/filterSlice';
+import { RootState } from '../../app/store';
 
 export const Search = () => {
   const dispatch = useDispatch();
-  const { search } = useSelector((state) => state.filter);
+  const { search } = useSelector((state: RootState) => state.filter);
 
   const inputRef = useRef<HTMLInputElement>(null);
 

@@ -14,8 +14,9 @@ import { NotFoundPizzas } from '../components/NotFoundBlock';
 import { initialParams } from '../assets/initialParams';
 import { isEqual } from '../assets/isEqual';
 
-import { setCurrentPage, setInitialFilter } from '../redux/slices/filterSlice';
-import { fetchByPizzas } from '../redux/slices/pizzaSlice';
+import { setCurrentPage, setInitialFilter } from '../app/slices/filterSlice';
+import { fetchByPizzas } from '../app/slices/pizzaSlice';
+import { RootState } from '../app/store';
 
 const theme = createTheme({
   palette: {
@@ -36,7 +37,7 @@ export const Home = () => {
 
   const [totalPages, setTotalPages] = useState<number>(0);
 
-  const { items, status } = useSelector((state) => state.pizza);
+  const { items, status } = useSelector((state: RootState) => state.pizza);
 
   const getPizzas = async () => {
     const { meta } = await dispatch(fetchByPizzas(searchParams)).unwrap();

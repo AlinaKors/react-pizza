@@ -1,15 +1,51 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+type DeleteItem = {
+  key: string;
+  id: number;
+  price: number;
+  count: number;
+};
+
+export type Item = {
+  count: number;
+  id: number;
+  imageUrl: string;
+  price: number;
+  size: number;
+  title: string;
+  type: number;
+};
+
+export type CartItemType = {
+  key: string;
+  item: Item;
+};
+
+type CountItems = {
+  count: number;
+  id: number;
+};
+
+interface ICartSliceState {
+  totalPrice: number;
+  totalItems: number;
+  items: CartItemType[];
+  countItems: CountItems[];
+}
+
+const initialState: ICartSliceState = {
+  totalPrice: 0,
+  totalItems: 0,
+  items: [],
+  countItems: [],
+};
 
 const cartSlice = createSlice({
   name: 'cart',
-  initialState: {
-    totalPrice: 0,
-    totalItems: 0,
-    items: [],
-    countItems: [],
-  },
+  initialState,
   reducers: {
-    addProduct: (state, action) => {
+    addProduct: (state, action: PayloadAction<CartItemType>) => {
       state.totalItems++;
       state.totalPrice += action.payload.item.price;
 
@@ -24,28 +60,28 @@ const cartSlice = createSlice({
         ? findCount.count++
         : state.countItems.push({ id: action.payload.item.id, count: 1 });
     },
-    deleteProduct: (state, action) => {
+    deleteProduct: (state, action: PayloadAction<DeleteItem>) => {
       state.totalItems--;
       state.totalPrice -= action.payload.price;
 
       const findProduct = state.items.find((item) => item.key === action.payload.key);
 
-      findProduct.item.count !== 1
+      findProduct && findProduct.item.count !== 1
         ? findProduct.item.count--
         : (state.items = state.items.filter((item) => item.key !== action.payload.key));
 
       const findCount = state.countItems.find((item) => item.id === action.payload.id);
-      findCount.count === 1
-        ? (state.countItems = state.countItems.filter((item) => item.id !== action.payload.id))
-        : (findCount.count -= action.payload.count);
+      findCount && findCount.count !== 1
+        ? (findCount.count -= action.payload.count)
+        : (state.countItems = state.countItems.filter((item) => item.id !== action.payload.id));
     },
-    deleteAllProduct: (state, action) => {
+    deleteAllProduct: (state, action: PayloadAction<DeleteItem>) => {
       state.items = state.items.filter((item) => item.key !== action.payload.key);
       const findCount = state.countItems.find((item) => item.id === action.payload.id);
 
-      findCount.count === action.payload.count
-        ? (state.countItems = state.countItems.filter((item) => item.id !== action.payload.id))
-        : (findCount.count -= action.payload.count);
+      findCount && findCount.count !== action.payload.count
+        ? (findCount.count -= action.payload.count)
+        : (state.countItems = state.countItems.filter((item) => item.id !== action.payload.id));
       state.totalItems -= action.payload.count;
       state.totalPrice -= action.payload.price * action.payload.count;
     },

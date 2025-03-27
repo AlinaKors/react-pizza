@@ -3,9 +3,10 @@ import { useSelector } from 'react-redux';
 
 import { Search } from '../Search';
 import styles from './Header.module.scss';
+import { RootState } from '../../app/store';
 
 export const Header = () => {
-  const { totalPrice, totalItems } = useSelector((state) => state.cart);
+  const { totalPrice, totalItems } = useSelector((state: RootState) => state.cart);
 
   return (
     <header>

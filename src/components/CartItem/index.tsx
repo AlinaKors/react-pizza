@@ -8,21 +8,15 @@ import IconAdd from '../../assets/img/plus.svg?react';
 import IconMinus from '../../assets/img/minus.svg?react';
 import { typePizza } from '../../assets/initialParams';
 
-import { addProduct, deleteProduct, deleteAllProduct } from '../../redux/slices/cartSlice';
+import {
+  addProduct,
+  deleteProduct,
+  deleteAllProduct,
+  CartItemType,
+} from '../../app/slices/cartSlice';
 
 type CartItemProps = {
-  product: {
-    key: string;
-    item: {
-      count: number;
-      id: number;
-      imageUrl: string;
-      price: number;
-      size: number;
-      title: string;
-      type: number;
-    };
-  };
+  product: CartItemType;
 };
 
 export const CartItem: FC<CartItemProps> = ({ product }) => {
@@ -37,7 +31,9 @@ export const CartItem: FC<CartItemProps> = ({ product }) => {
   };
 
   const handleDeleteProduct = () => {
-    dispatch(deleteProduct({ key: product.key, id: item.id, price: item.price }));
+    dispatch(
+      deleteProduct({ key: product.key, id: item.id, price: item.price, count: item.count }),
+    );
   };
 
   const handleAddProduct = () => {
