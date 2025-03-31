@@ -59,7 +59,7 @@ export const PizzaItem: FC<PizzaItemProps> = ({ imageUrl, title, types, id, size
   };
 
   const getCountPizza = () => {
-    return countItems.find((item) => item.id === id).count;
+    return countItems.find((item) => item.id === id)?.count;
   };
 
   return (

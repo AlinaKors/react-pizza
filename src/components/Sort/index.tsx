@@ -38,17 +38,17 @@ export const Sort = () => {
     <div className={styles.sort} ref={isClickSort}>
       <div
         className={desc ? `${styles.triangle} ${styles.desc}` : styles.triangle}
-        onClick={() => dispatch(toggleSort(!desc))}
+        onClick={() => dispatch(toggleSort())}
       ></div>
       <div className={styles.sortBy}>
-        Сортировка по: <span onClick={() => setIsOpen(!isOpen)}>{sort.name}</span>
+        Сортировка по: <span onClick={() => setIsOpen(!isOpen)}>{sort?.name}</span>
       </div>
       <ul className={isOpen ? '' : styles.close}>
         {sortBy.map((sortItem) => (
           <li
             key={sortItem.name}
             onClick={() => onSetSort(sortItem)}
-            className={sort.name === sortItem.name ? styles.isActive : ''}
+            className={sort?.name === sortItem.name ? styles.isActive : ''}
           >
             {sortItem.name}
           </li>

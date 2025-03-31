@@ -2,26 +2,24 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { initialParams, sortBy } from '../../assets/initialParams';
 
-//>>>>>????
-type SortType = {
+export type SortType = {
   sortBy: string;
-  category: string;
+  category: number | string;
   title: string;
-  page: string;
-  [key: string]: string;
+  page: number;
+  [key: string]: string | number | undefined;
 };
 
 type SortTypeBy = {
   name: string;
   sortParams: string;
 };
-
 interface IFilterSliceState {
-  selectedCategory: number;
-  desc: boolean;
-  currentPage: number;
-  search: string;
-  sort: SortTypeBy;
+  selectedCategory?: number;
+  desc?: boolean;
+  currentPage?: number;
+  search?: string;
+  sort?: SortTypeBy;
 }
 
 const setSort = (sortParams: string) => {
@@ -31,23 +29,29 @@ const setSort = (sortParams: string) => {
   }
 };
 
-const getInitialState = (): IFilterSliceState => {
-  //>>>>>????
-  let params: Record<keyof SortType, string> = {};
-  const paramsQuery = new URLSearchParams(window.location.search);
+const paramsQuery = new URLSearchParams(window.location.search);
+
+const getInitialState = (paramsQuery: URLSearchParams): IFilterSliceState => {
+  let params: SortType = {
+    sortBy: 'raiting',
+    category: '*',
+    title: '*',
+    page: 1,
+  };
   if (paramsQuery.size) {
     paramsQuery.entries().forEach((el) => {
       const [key, value] = el;
       params[key] = value;
     });
-    //>>>>>????
-    let initialState = {} as IFilterSliceState;
-    if (params.sortBy.includes('-')) {
-      initialState.desc = true;
-      initialState.sort = setSort(params.sortBy.slice(1)) as SortTypeBy;
-    } else {
-      initialState.desc = false;
-      initialState.sort = setSort(params.sortBy) as SortTypeBy;
+    let initialState: IFilterSliceState = {};
+    if (params.sortBy) {
+      if (params.sortBy.includes('-')) {
+        initialState.desc = true;
+        initialState.sort = setSort(params.sortBy.slice(1));
+      } else {
+        initialState.desc = false;
+        initialState.sort = setSort(params.sortBy);
+      }
     }
     initialState.selectedCategory = params.category === '*' ? 0 : Number(params.category);
     initialState.currentPage = Number(params.page);
@@ -59,7 +63,7 @@ const getInitialState = (): IFilterSliceState => {
 
 const filterSlice = createSlice({
   name: 'filter',
-  initialState: getInitialState(),
+  initialState: getInitialState(paramsQuery),
   reducers: {
     changeSort: (state, actions: PayloadAction<SortTypeBy>) => {
       state.sort = actions.payload;

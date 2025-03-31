@@ -3,7 +3,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { Pagination } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router';
 
 import { Categories } from '../components/Categories';
@@ -16,7 +16,7 @@ import { isEqual } from '../assets/isEqual';
 
 import { setCurrentPage, setInitialFilter } from '../app/slices/filterSlice';
 import { fetchByPizzas } from '../app/slices/pizzaSlice';
-import { RootState } from '../app/store';
+import { RootState, useAppDispatch } from '../app/store';
 
 const theme = createTheme({
   palette: {
@@ -27,12 +27,12 @@ const theme = createTheme({
 });
 
 export const Home = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { selectedCategory, desc, sort, search, currentPage } = useSelector(
-    (state) => state.filter,
+    (state: RootState) => state.filter,
   );
 
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -41,22 +41,23 @@ export const Home = () => {
 
   const getPizzas = async () => {
     const { meta } = await dispatch(fetchByPizzas(searchParams)).unwrap();
-    setTotalPages(meta.total_pages);
-    meta.total_pages < currentPage && dispatch(setCurrentPage(1));
+    meta && setTotalPages(meta.total_pages);
+    meta && currentPage && meta.total_pages < currentPage && dispatch(setCurrentPage(1));
   };
 
   const getParamsFilter = () => {
-    const sortCategory = selectedCategory === 0 ? '*' : selectedCategory;
-    const sortByParams = desc ? '-' + sort.sortParams : sort.sortParams;
+    const sortCategory = selectedCategory === 0 ? '*' : toString();
+    const sortByParams = desc ? '-' + sort?.sortParams : sort?.sortParams;
     const searchInput = search ? `*${search}` : '*';
-    const pageParams = currentPage > 1 ? `${currentPage}` : '1';
+    const pageParams = currentPage && currentPage > 1 ? `${currentPage}` : '1';
 
-    setSearchParams({
-      category: sortCategory,
-      sortBy: sortByParams,
-      page: pageParams,
-      title: searchInput,
-    });
+    sortByParams &&
+      setSearchParams({
+        category: sortCategory,
+        sortBy: sortByParams,
+        page: pageParams,
+        title: searchInput,
+      });
   };
 
   const emptyParams = () => {
