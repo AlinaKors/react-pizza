@@ -55,7 +55,7 @@ const getInitialState = (paramsQuery: URLSearchParams): IFilterSliceState => {
     }
     initialState.selectedCategory = params.category === '*' ? 0 : Number(params.category);
     initialState.currentPage = Number(params.page);
-    initialState.search = params.title === '*' ? '' : params.title;
+    initialState.search = '';
     return initialState;
   }
   return initialParams;
@@ -76,6 +76,7 @@ const filterSlice = createSlice({
     },
     setSearch: (state, actions: PayloadAction<string>) => {
       state.search = actions.payload;
+      state.selectedCategory = 0;
     },
     setCurrentPage: (state, actions: PayloadAction<number>) => {
       state.currentPage = actions.payload;

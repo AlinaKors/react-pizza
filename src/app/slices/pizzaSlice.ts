@@ -32,7 +32,8 @@ type Item = {
   category: number;
   id: number;
   imageUrl: string;
-  price: Price;
+  price: number;
+  prices: Price;
   rating: number;
   sizes: number[];
   title: string;

@@ -9,12 +9,3 @@ export const NotFoundBlock = () => {
     </div>
   );
 };
-
-export const NotFoundPizzas = () => {
-  return (
-    <div className={styles.notFoundBlock}>
-      <h1>К сожалению, пицца не найдена</h1>
-      <p>Извините, но данной пиццы в этой категории нету :с</p>
-    </div>
-  );
-};

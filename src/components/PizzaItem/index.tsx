@@ -11,7 +11,7 @@ import styles from './PizzaItem.module.scss';
 type PizzaItemProps = {
   id: number;
   imageUrl: string;
-  price: { [key: string]: number };
+  prices: { [key: string]: number };
   sizes: number[];
   title: string;
   types: number[];
@@ -32,14 +32,14 @@ type ItemType = {
   type: number;
 };
 
-export const PizzaItem: FC<PizzaItemProps> = ({ imageUrl, title, types, id, sizes, price }) => {
+export const PizzaItem: FC<PizzaItemProps> = ({ imageUrl, title, types, id, sizes, prices }) => {
   const dispatch = useDispatch();
 
   const [sizeInput, setSizeInput] = useState<number>(0);
   const [typeInput, setTypeInput] = useState<number>(0);
   const [addBtn, setAddBtn] = useState<boolean>(false);
 
-  const countItems = useSelector((state: RootState) => state.cart.countItems);
+  const { countItems } = useSelector((state: RootState) => state.persistedReducerCart);
 
   const handleAddToCart = () => {
     const product: ProductType = {
@@ -47,7 +47,7 @@ export const PizzaItem: FC<PizzaItemProps> = ({ imageUrl, title, types, id, size
       item: {
         id,
         title,
-        price: price[sizes[sizeInput]],
+        price: prices[sizes[sizeInput]],
         imageUrl,
         size: sizes[sizeInput],
         type: types[typeInput],
@@ -101,7 +101,7 @@ export const PizzaItem: FC<PizzaItemProps> = ({ imageUrl, title, types, id, size
         </div>
       </div>
       <div className={styles.addContainer}>
-        <h2>от {price[sizes[sizeInput]]} ₽</h2>
+        <h2>{prices[sizes[sizeInput]]} ₽</h2>
         <button className={styles.addBtn} onClick={handleAddToCart}>
           <IconAdd />
           <span>Добавить</span>

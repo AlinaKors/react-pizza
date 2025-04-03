@@ -4,7 +4,9 @@ import { changeCategory } from '../../app/slices/filterSlice';
 
 import styles from './Categories.module.scss';
 import { RootState } from '../../app/store';
-export const Categories = () => {
+import React from 'react';
+
+export const Categories = React.memo(() => {
   const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые'];
 
   const selectedCategory = useSelector((state: RootState) => state.filter.selectedCategory);
@@ -25,4 +27,4 @@ export const Categories = () => {
       </ul>
     </nav>
   );
-};
+});

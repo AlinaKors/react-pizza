@@ -1,23 +1,27 @@
 import { useState, useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { changeSort, toggleSort } from '../../app/slices/filterSlice';
 import { sortBy } from '../../assets/initialParams';
 
 import styles from './Sort.module.scss';
-import { RootState } from '../../app/store';
+import React from 'react';
 
 type SortType = {
   name: string;
   sortParams: string;
 };
 
-export const Sort = () => {
+type SortProps = {
+  sort?: SortType;
+  desc?: boolean;
+};
+
+export const Sort: React.FC<SortProps> = React.memo(({ sort, desc }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isClickSort = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
-  const { sort, desc } = useSelector((state: RootState) => state.filter);
 
   const onSetSort = (item: SortType) => {
     setIsOpen(false);
@@ -56,4 +60,4 @@ export const Sort = () => {
       </ul>
     </div>
   );
-};
+});

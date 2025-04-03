@@ -10,7 +10,7 @@ import { Categories } from '../components/Categories';
 import { PizzaItem } from '../components/PizzaItem';
 import { Sort } from '../components/Sort';
 import { SkeletonBlock } from '../components/PizzaItem/SkeletonBlock';
-import { NotFoundPizzas } from '../components/NotFoundBlock';
+import { NotFoundBlock } from '../components/NotFoundBlock';
 import { initialParams } from '../assets/initialParams';
 import { isEqual } from '../assets/isEqual';
 
@@ -46,12 +46,13 @@ export const Home = () => {
   };
 
   const getParamsFilter = () => {
-    const sortCategory = selectedCategory === 0 ? '*' : toString();
+    const sortCategory = selectedCategory === 0 ? '*' : selectedCategory?.toString();
     const sortByParams = desc ? '-' + sort?.sortParams : sort?.sortParams;
     const searchInput = search ? `*${search}` : '*';
     const pageParams = currentPage && currentPage > 1 ? `${currentPage}` : '1';
 
     sortByParams &&
+      sortCategory &&
       setSearchParams({
         category: sortCategory,
         sortBy: sortByParams,
@@ -87,10 +88,10 @@ export const Home = () => {
     <main>
       <div className="navigationMenu">
         <Categories />
-        <Sort />
+        <Sort sort={sort} desc={desc} />
       </div>
       <h1>Все пиццы</h1>
-      <div className="pizzaWrapper">
+      <div className={totalPages === 0 ? 'display-none' : 'pizzaWrapper'}>
         <ul>{status === 'success' ? pizzasBlock : skeletons}</ul>
       </div>
       <ThemeProvider theme={theme}>
@@ -103,7 +104,7 @@ export const Home = () => {
             page={currentPage}
           />
         ) : (
-          <NotFoundPizzas />
+          <NotFoundBlock />
         )}
       </ThemeProvider>
     </main>

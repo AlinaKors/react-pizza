@@ -17,7 +17,9 @@ export const Cart = () => {
     dispatch(clearCart());
   };
 
-  const { totalPrice, items, totalItems } = useSelector((state: RootState) => state.cart);
+  const { totalPrice, items, totalItems } = useSelector(
+    (state: RootState) => state.persistedReducerCart,
+  );
 
   return totalItems ? (
     <div className="cartWrapper">
