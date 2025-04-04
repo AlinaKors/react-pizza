@@ -1,12 +1,13 @@
 import { FC } from 'react';
 import { Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import type { RootState } from '../../app/store';
-import { addProduct } from '../../app/slices/cartSlice';
+import type { RootState } from '../../store/store';
+import { addProduct } from '../../store/cart/slice';
 
-import { typePizza } from '../../assets/initialParams';
+import { typePizza } from '../../utils/initialParams';
 import IconAdd from '../../assets/img/plus.svg?react';
 import styles from './PizzaItem.module.scss';
+import { ProductType } from '@/src/store/cart/types';
 
 type PizzaItemProps = {
   id: number;
@@ -15,21 +16,6 @@ type PizzaItemProps = {
   sizes: number[];
   title: string;
   types: number[];
-};
-
-type ProductType = {
-  key: string;
-  item: ItemType;
-};
-
-type ItemType = {
-  count: number;
-  id: number;
-  imageUrl: string;
-  price: number;
-  size: number;
-  title: string;
-  type: number;
 };
 
 export const PizzaItem: FC<PizzaItemProps> = ({ imageUrl, title, types, id, sizes, prices }) => {

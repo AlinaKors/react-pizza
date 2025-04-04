@@ -1,10 +1,10 @@
 import { Routes, Route } from 'react-router';
 
-import { Header } from './components/Header';
+import { Header } from './Header';
 import { Home } from './pages/Home';
 import { Cart } from './pages/Cart';
 import { NotFound } from './pages/NotFound';
-import { store, persister } from './app/store';
+import { store, persister } from '../store/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 

@@ -1,0 +1,35 @@
+.cartContaner {
+  display: flex;
+  border-radius: 30px;
+  background-color: #fe5f1e;
+  color: #ffffff;
+  align-items: center;
+  max-width: 160px;
+  font-weight: 700;
+  font-style: normal;
+  padding: 16px 24px;
+
+  @media (max-width: 375px) {
+    padding: 12px;
+  }
+  .price {
+    border-right: #ffffff 1px solid;
+    padding-right: 12px;
+    cursor: pointer;
+
+    @media (max-width: 1024px) {
+      display: none;
+    }
+  }
+  .cart {
+    margin-left: 12px;
+    display: flex;
+    cursor: pointer;
+    span {
+      margin-left: 8px;
+    }
+    @media (max-width: 1024px) {
+      margin-left: 0;
+    }
+  }
+}

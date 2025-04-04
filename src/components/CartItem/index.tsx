@@ -6,17 +6,13 @@ import styles from './CartItem.module.scss';
 import IconAdd from '../../assets/img/plus.svg?react';
 
 import IconMinus from '../../assets/img/minus.svg?react';
-import { typePizza } from '../../assets/initialParams';
+import { typePizza } from '../../utils/initialParams';
 
-import {
-  addProduct,
-  deleteProduct,
-  deleteAllProduct,
-  CartItemType,
-} from '../../app/slices/cartSlice';
+import { addProduct, deleteProduct, deleteAllProduct } from '../../store/cart/slice';
+import { ProductType } from '@/src/store/cart/types';
 
 type CartItemProps = {
-  product: CartItemType;
+  product: ProductType;
 };
 
 export const CartItem: FC<CartItemProps> = ({ product }) => {

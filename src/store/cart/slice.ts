@@ -1,38 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-type DeleteItem = {
-  key: string;
-  id: number;
-  price: number;
-  count: number;
-};
-
-export type Item = {
-  count: number;
-  id: number;
-  imageUrl: string;
-  price: number;
-  size: number;
-  title: string;
-  type: number;
-};
-
-export type CartItemType = {
-  key: string;
-  item: Item;
-};
-
-type CountItems = {
-  count: number;
-  id: number;
-};
-
-interface ICartSliceState {
-  totalPrice: number;
-  totalItems: number;
-  items: CartItemType[];
-  countItems: CountItems[];
-}
+import { DeleteItem, ICartSliceState, ProductType } from './types';
 
 const initialState: ICartSliceState = {
   totalPrice: 0,
@@ -41,11 +8,13 @@ const initialState: ICartSliceState = {
   countItems: [],
 };
 
+//состояние корзины
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addProduct: (state, action: PayloadAction<CartItemType>) => {
+    //добавление в корзину
+    addProduct: (state, action: PayloadAction<ProductType>) => {
       state.totalItems++;
       state.totalPrice += action.payload.item.price;
 
@@ -60,6 +29,7 @@ const cartSlice = createSlice({
         ? findCount.count++
         : state.countItems.push({ id: action.payload.item.id, count: 1 });
     },
+    //удаление с корзины одной единицы позиции
     deleteProduct: (state, action: PayloadAction<DeleteItem>) => {
       state.totalItems--;
       state.totalPrice -= action.payload.price;
@@ -75,6 +45,7 @@ const cartSlice = createSlice({
         ? (findCount.count -= action.payload.count)
         : (state.countItems = state.countItems.filter((item) => item.id !== action.payload.id));
     },
+    //удаление с корзины целой позиции
     deleteAllProduct: (state, action: PayloadAction<DeleteItem>) => {
       state.items = state.items.filter((item) => item.key !== action.payload.key);
       const findCount = state.countItems.find((item) => item.id === action.payload.id);
@@ -85,6 +56,7 @@ const cartSlice = createSlice({
       state.totalItems -= action.payload.count;
       state.totalPrice -= action.payload.price * action.payload.count;
     },
+    //очистка корзины
     clearCart: (state) => {
       state.items = [];
       state.totalItems = 0;

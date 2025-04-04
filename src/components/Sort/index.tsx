@@ -1,19 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { changeSort, toggleSort } from '../../app/slices/filterSlice';
-import { sortBy } from '../../assets/initialParams';
+import { changeSort, toggleSort } from '../../store/filter/slice';
+import { sortBy } from '../../utils/initialParams';
 
 import styles from './Sort.module.scss';
 import React from 'react';
+import { SortTypeBy } from '@/src/store/filter/types';
 
-type SortType = {
-  name: string;
-  sortParams: string;
-};
-
-type SortProps = {
-  sort?: SortType;
+export type SortProps = {
+  sort?: SortTypeBy;
   desc?: boolean;
 };
 
@@ -23,9 +19,13 @@ export const Sort: React.FC<SortProps> = React.memo(({ sort, desc }) => {
 
   const dispatch = useDispatch();
 
-  const onSetSort = (item: SortType) => {
+  const onSetSort = (item: SortTypeBy) => {
     setIsOpen(false);
     dispatch(changeSort(item));
+  };
+
+  const onToggleSort = () => {
+    dispatch(toggleSort());
   };
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export const Sort: React.FC<SortProps> = React.memo(({ sort, desc }) => {
     <div className={styles.sort} ref={isClickSort}>
       <div
         className={desc ? `${styles.triangle} ${styles.desc}` : styles.triangle}
-        onClick={() => dispatch(toggleSort())}
+        onClick={onToggleSort}
       ></div>
       <div className={styles.sortBy}>
         Сортировка по: <span onClick={() => setIsOpen(!isOpen)}>{sort?.name}</span>

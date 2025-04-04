@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import filter from './slices/filterSlice';
-import pizza from './slices/pizzaSlice';
-import cart from './slices/cartSlice';
+import filter from './filter/slice';
+import pizza from './pizza/slice';
+import cart from './cart/slice';
 import { useDispatch } from 'react-redux';
 import {
   persistStore,
@@ -20,6 +20,7 @@ const persistConfig = {
   storage,
 };
 
+//отдельный reducer для корзины, для сохранение состояния при перезагрузке страницы
 const persistedReducerCart = persistReducer(persistConfig, cart);
 
 export const store = configureStore({
