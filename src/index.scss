@@ -324,3 +324,29 @@ header {
     }
   }
 }
+
+.sort {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  @media (max-width: 1260px) {
+    margin-top: 18px;
+  }
+  ul {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    font-weight: 400;
+    border-radius: 10px;
+    padding: 12px 0px;
+    right: 0;
+    min-width: 150px;
+    top: 52px;
+    box-shadow: 0px 5px 15px 0px #00000017;
+    &.close {
+      visibility: hidden;
+    }
+  }
+}

@@ -1,14 +1,14 @@
 import { Link } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { clearCart } from '../../store/cart/slice';
+import { clearCart } from '../store/cart/slice';
 
-import IconDelete from '../../assets/img/cartDelete.svg?react';
-import IconBack from '../../assets/img/back.svg?react';
+import IconDelete from '../assets/img/cartDelete.svg?react';
+import IconBack from '../assets/img/back.svg?react';
 
-import { EmptyCart } from '../../components/EmptyCart';
-import { CartItem } from '../../components/CartItem';
-import { RootState } from '../../store/store';
+import { EmptyCart } from '../components/EmptyCart';
+import { CartItem } from '../components/CartItem';
+import { RootState } from '../store/store';
 
 export const Cart = () => {
   const dispatch = useDispatch();

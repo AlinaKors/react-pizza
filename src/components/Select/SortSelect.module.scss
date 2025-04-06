@@ -1,0 +1,16 @@
+.select {
+  background-color: #ffffff;
+  padding: 10px 14px;
+  text-wrap: nowrap;
+  font-weight: 400;
+  transition: background-color 0.3s;
+  &:hover,
+  &.isActive {
+    background-color: #fe5f1e0d;
+    color: #fe5f1e;
+    font-weight: 700;
+    border-radius: 0px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+}

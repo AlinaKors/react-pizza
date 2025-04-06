@@ -1,16 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { changeSort, toggleSort } from '../../store/filter/slice';
-import { sortBy } from '../../utils/initialParams';
+import { changeSort, toggleSort } from '../store/filter/slice';
+import { sortBy } from '../utils/initialParams';
 
-import styles from './Sort.module.scss';
 import React from 'react';
 import { SortTypeBy } from '@/src/store/filter/types';
+import { Select } from '../components/Select';
+import { TriangleToggle } from '../components/TriangleToggle';
+import { SortSelected } from '../components/SortSelected';
 
 export type SortProps = {
-  sort?: SortTypeBy;
-  desc?: boolean;
+  sort: SortTypeBy;
+  desc: boolean;
 };
 
 export const Sort: React.FC<SortProps> = React.memo(({ sort, desc }) => {
@@ -19,15 +21,18 @@ export const Sort: React.FC<SortProps> = React.memo(({ sort, desc }) => {
 
   const dispatch = useDispatch();
 
+  //Выбор сортировки
   const onSetSort = (item: SortTypeBy) => {
     setIsOpen(false);
     dispatch(changeSort(item));
   };
 
+  //Изменение по убывание/возрастанию
   const onToggleSort = () => {
     dispatch(toggleSort());
   };
 
+  //Закрытие попапа сортировки по клику за областью попапа
   useEffect(() => {
     const handleClickOutsideSort = (e: MouseEvent) => {
       isClickSort.current && !e.composedPath().includes(isClickSort.current) && setIsOpen(false);
@@ -39,23 +44,12 @@ export const Sort: React.FC<SortProps> = React.memo(({ sort, desc }) => {
   }, []);
 
   return (
-    <div className={styles.sort} ref={isClickSort}>
-      <div
-        className={desc ? `${styles.triangle} ${styles.desc}` : styles.triangle}
-        onClick={onToggleSort}
-      ></div>
-      <div className={styles.sortBy}>
-        Сортировка по: <span onClick={() => setIsOpen(!isOpen)}>{sort?.name}</span>
-      </div>
-      <ul className={isOpen ? '' : styles.close}>
+    <div className="sort" ref={isClickSort}>
+      <TriangleToggle desc={desc} onToggleSort={onToggleSort} />
+      <SortSelected setIsOpen={setIsOpen} isOpen={isOpen} sort={sort} />
+      <ul className={isOpen ? '' : 'close'}>
         {sortBy.map((sortItem) => (
-          <li
-            key={sortItem.name}
-            onClick={() => onSetSort(sortItem)}
-            className={sort?.name === sortItem.name ? styles.isActive : ''}
-          >
-            {sortItem.name}
-          </li>
+          <Select key={sortItem.name} selectItem={sortItem} onSelect={onSetSort} selected={sort} />
         ))}
       </ul>
     </div>

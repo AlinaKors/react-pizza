@@ -8,6 +8,7 @@ import { typePizza } from '../../utils/initialParams';
 import IconAdd from '../../assets/img/plus.svg?react';
 import styles from './PizzaItem.module.scss';
 import { ProductType } from '@/src/store/cart/types';
+import { InputRadioType } from '../InputRadioType';
 
 type PizzaItemProps = {
   id: number;
@@ -57,32 +58,28 @@ export const PizzaItem: FC<PizzaItemProps> = ({ imageUrl, title, types, id, size
       <div className={styles.doughChoise}>
         <div className={styles.type}>
           {types.map((type) => (
-            <Fragment key={typePizza[type].toString() + id}>
-              <input
-                type="radio"
-                id={typePizza[type].toString() + id}
-                name={'type' + id}
-                value={typePizza[type]}
-                checked={typeInput === type}
-                onChange={() => setTypeInput(type)}
-              />
-              <label htmlFor={typePizza[type].toString() + id}>{typePizza[type]}</label>
-            </Fragment>
+            <InputRadioType
+              key={typePizza[type].toString() + id}
+              velueType={typePizza[type]}
+              id={id}
+              type={type}
+              checkedType={typeInput}
+              setTypeInput={setTypeInput}
+              nameInput={'type'}
+            />
           ))}
         </div>
         <div className={styles.size}>
           {sizes.map((size, index) => (
-            <Fragment key={size.toString() + id}>
-              <input
-                type="radio"
-                id={size.toString() + id}
-                name={'size' + id}
-                value={size}
-                checked={sizeInput === index}
-                onChange={() => setSizeInput(index)}
-              />
-              <label htmlFor={size.toString() + id}>{size} см.</label>
-            </Fragment>
+            <InputRadioType
+              key={size.toString() + id}
+              velueType={size.toString() + ' см.'}
+              id={id}
+              type={index}
+              checkedType={sizeInput}
+              setTypeInput={setSizeInput}
+              nameInput={'size'}
+            />
           ))}
         </div>
       </div>

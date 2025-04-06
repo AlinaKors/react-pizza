@@ -6,17 +6,18 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router';
 
-import { Categories } from '../Categories';
-import { PizzaItem } from '../../components/PizzaItem';
-import { Sort } from '../../components/Sort';
-import { SkeletonBlock } from '../../components/PizzaItem/SkeletonBlock';
-import { NotFoundBlock } from '../../components/NotFoundBlock';
-import { initialParams } from '../../utils/initialParams';
-import { isEqual } from '../../utils/isEqual';
+import { Categories } from '../containers/Categories';
+import { PizzaItem } from '../components/PizzaItem';
+import { Sort } from '../containers/Sort';
+import { SkeletonBlock } from '../components/PizzaItem/SkeletonBlock';
+import { NotFoundBlock } from '../components/NotFoundBlock';
+import { initialParams } from '../utils/initialParams';
+import { isEqual } from '../utils/isEqual';
 
-import { setCurrentPage, setInitialFilter } from '../../store/filter/slice';
-import { fetchByPizzas } from '../../store/pizza/AsyncActions';
-import { RootState, useAppDispatch } from '../../store/store';
+import { setCurrentPage, setInitialFilter } from '../store/filter/slice';
+import { fetchByPizzas } from '../store/pizza/AsyncActions';
+import { RootState, useAppDispatch } from '../store/store';
+import { Status } from '../store/pizza/types';
 
 //тема для пагинации
 const theme = createTheme({
@@ -99,10 +100,10 @@ export const Home = () => {
       </div>
       <h1>Все пиццы</h1>
       <div className={totalPages === 0 ? 'display-none' : 'pizzaWrapper'}>
-        <ul>{status === 'success' ? pizzasBlock : skeletons}</ul>
+        <ul>{status === Status.SUCCESS ? pizzasBlock : skeletons}</ul>
       </div>
       <ThemeProvider theme={theme}>
-        {totalPages > 0 ? (
+        {status !== Status.ERROR ? (
           <Pagination
             count={totalPages}
             variant="outlined"
