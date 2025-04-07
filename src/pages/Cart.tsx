@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { clearCart } from '../store/cart/slice';
+import { addProduct, clearCart, deleteAllProduct, deleteProduct } from '../store/cart/slice';
 
 import IconDelete from '../assets/img/cartDelete.svg?react';
 import IconBack from '../assets/img/back.svg?react';
@@ -9,6 +9,8 @@ import IconBack from '../assets/img/back.svg?react';
 import { EmptyCart } from '../components/EmptyCart';
 import { CartItem } from '../components/CartItem';
 import { RootState } from '../store/store';
+import { BtnForCart } from '../components/BtnForCart';
+import { ItemType, ProductType } from '../store/cart/types';
 
 export const Cart = () => {
   const dispatch = useDispatch();
@@ -21,6 +23,22 @@ export const Cart = () => {
     (state: RootState) => state.persistedReducerCart,
   );
 
+  const handleDeleteAllProduct = (product: ProductType, item: ItemType) => {
+    dispatch(
+      deleteAllProduct({ key: product.key, id: item.id, price: item.price, count: item.count }),
+    );
+  };
+
+  const handleDeleteProduct = (product: ProductType, item: ItemType) => {
+    dispatch(
+      deleteProduct({ key: product.key, id: item.id, price: item.price, count: item.count }),
+    );
+  };
+
+  const handleAddProduct = (product: ProductType) => {
+    dispatch(addProduct(product));
+  };
+
   return totalItems ? (
     <div className="cartWrapper">
       <div className="cartTop">
@@ -28,15 +46,24 @@ export const Cart = () => {
           <img src="src/assets/img/cartBig.png" alt="cart icon" />
           <h1>Корзина</h1>
         </div>
-        <button className="deleteItems" onClick={handleClearCart}>
+        <BtnForCart
+          handleClick={handleClearCart}
+          textBtn={'Очистить корзину'}
+          classNameBtn={'deleteItems'}
+        >
           <IconDelete />
-          <span>Очистить корзину</span>
-        </button>
+        </BtnForCart>
       </div>
       <div className="cartItems">
         <ul>
           {items.map((product) => (
-            <CartItem product={product} key={product.key} />
+            <CartItem
+              product={product}
+              key={product.key}
+              handleAddProduct={handleAddProduct}
+              handleDeleteProduct={handleDeleteProduct}
+              handleDeleteAllProduct={handleDeleteAllProduct}
+            />
           ))}
         </ul>
       </div>
@@ -50,12 +77,11 @@ export const Cart = () => {
       </div>
       <div className="cartBottom">
         <Link to="/">
-          <button className="backBtn">
+          <BtnForCart textBtn={'Вернуться назад'} classNameBtn={'backBtn'}>
             <IconBack />
-            Вернуться назад
-          </button>
+          </BtnForCart>
         </Link>
-        <button className="orderBtn">Оплатить сейчас</button>
+        <BtnForCart textBtn={'Оплатить сейчас'} classNameBtn={'orderBtn'} />
       </div>
     </div>
   ) : (

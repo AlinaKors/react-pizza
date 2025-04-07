@@ -42,7 +42,7 @@ const cartSlice = createSlice({
 
       const findCount = state.countItems.find((item) => item.id === action.payload.id);
       findCount && findCount.count !== 1
-        ? (findCount.count -= action.payload.count)
+        ? findCount.count--
         : (state.countItems = state.countItems.filter((item) => item.id !== action.payload.id));
     },
     //удаление с корзины целой позиции

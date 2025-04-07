@@ -7,9 +7,9 @@ import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router';
 
 import { Categories } from '../containers/Categories';
-import { PizzaItem } from '../components/PizzaItem';
+import { PizzaItem } from '../containers/PizzaItem';
 import { Sort } from '../containers/Sort';
-import { SkeletonBlock } from '../components/PizzaItem/SkeletonBlock';
+import { SkeletonBlock } from '../containers/SkeletonBlock';
 import { NotFoundBlock } from '../components/NotFoundBlock';
 import { initialParams } from '../utils/initialParams';
 import { isEqual } from '../utils/isEqual';

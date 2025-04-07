@@ -8,33 +8,23 @@ import IconAdd from '../../assets/img/plus.svg?react';
 import IconMinus from '../../assets/img/minus.svg?react';
 import { typePizza } from '../../utils/initialParams';
 
-import { addProduct, deleteProduct, deleteAllProduct } from '../../store/cart/slice';
-import { ProductType } from '@/src/store/cart/types';
+import { ItemType, ProductType } from '@/src/store/cart/types';
+import { BtnForCart } from '../BtnForCart';
 
 type CartItemProps = {
   product: ProductType;
+  handleDeleteAllProduct: (product: ProductType, item: ItemType) => void;
+  handleDeleteProduct: (product: ProductType, item: ItemType) => void;
+  handleAddProduct: (product: ProductType) => void;
 };
 
-export const CartItem: FC<CartItemProps> = ({ product }) => {
-  const dispatch = useDispatch();
-
+export const CartItem: FC<CartItemProps> = ({
+  product,
+  handleDeleteAllProduct,
+  handleDeleteProduct,
+  handleAddProduct,
+}) => {
   const { item } = product;
-
-  const handleDeleteAllProduct = () => {
-    dispatch(
-      deleteAllProduct({ key: product.key, id: item.id, price: item.price, count: item.count }),
-    );
-  };
-
-  const handleDeleteProduct = () => {
-    dispatch(
-      deleteProduct({ key: product.key, id: item.id, price: item.price, count: item.count }),
-    );
-  };
-
-  const handleAddProduct = () => {
-    dispatch(addProduct(product));
-  };
 
   return (
     <li>
@@ -48,18 +38,21 @@ export const CartItem: FC<CartItemProps> = ({ product }) => {
         </div>
       </div>
       <div className={styles.countBlock}>
-        <button onClick={handleDeleteProduct}>
+        <BtnForCart classNameBtn={'minus'} handleClick={() => handleDeleteProduct(product, item)}>
           <IconMinus />
-        </button>
+        </BtnForCart>
         <h2>{item.count}</h2>
-        <button onClick={handleAddProduct}>
+        <BtnForCart classNameBtn={'plus'} handleClick={() => handleAddProduct(product)}>
           <IconAdd />
-        </button>
+        </BtnForCart>
       </div>
       <h2 className={styles.price}>{item.price * item.count} ₽</h2>
-      <button className={styles.deleteBtn} onClick={handleDeleteAllProduct}>
+      <BtnForCart
+        classNameBtn={'deleteBtn'}
+        handleClick={() => handleDeleteAllProduct(product, item)}
+      >
         <IconAdd />
-      </button>
+      </BtnForCart>
     </li>
   );
 };
