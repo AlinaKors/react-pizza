@@ -1,13 +1,13 @@
-import { FC, useCallback, useEffect } from 'react';
+import { FC } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../store/store';
 import { addProduct } from '../store/cart/slice';
-
+import IconAdd from '../assets/img/plus.svg?react';
 import { typePizza } from '../utils/initialParams';
 import { ProductType } from '@/src/store/cart/types';
 import { InputRadioType } from '../components/InputRadioType';
-import { AddBtn } from '../components/AddBtn';
+import { Button } from '../components/Button';
 
 type PizzaItemProps = {
   id: number;
@@ -26,7 +26,7 @@ export const PizzaItem: FC<PizzaItemProps> = ({ imageUrl, title, types, id, size
 
   const { countItems } = useSelector((state: RootState) => state.persistedReducerCart);
   const countAdd = countItems.find((item) => item.id === id)?.count || 0;
-  console.log(countItems);
+
   //добавление пицц в корзину
   const handleAddToCart = () => {
     const product: ProductType = {
@@ -80,7 +80,15 @@ export const PizzaItem: FC<PizzaItemProps> = ({ imageUrl, title, types, id, size
       </div>
       <div className="addContainer">
         <h2>{prices[sizes[sizeInput]]} ₽</h2>
-        <AddBtn handleAddToCart={handleAddToCart} addBtn={countAdd} />
+        <Button handleClick={handleAddToCart} classNameBtn={'addBtn'}>
+          <IconAdd />
+          <span>Добавить</span>
+          {countAdd !== 0 && (
+            <div className="countItem">
+              <span>{countAdd}</span>
+            </div>
+          )}
+        </Button>
       </div>
     </li>
   );

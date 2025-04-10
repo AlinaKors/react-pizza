@@ -1,5 +1,6 @@
-import styles from './SortSelect.module.scss';
-import { SortTypeBy } from '@/src/store/filter/types';
+import styles from './Select.module.scss';
+import { SortTypeBy } from '../../../store/filter/types';
+import { memo } from 'react';
 
 type SelectProps = {
   selectItem: SortTypeBy;
@@ -7,7 +8,7 @@ type SelectProps = {
   selected: SortTypeBy;
 };
 
-export const Select: React.FC<SelectProps> = ({ selectItem, onSelect, selected }) => {
+export const Select: React.FC<SelectProps> = memo(({ selectItem, onSelect, selected }) => {
   return (
     <li
       key={selectItem.name}
@@ -19,4 +20,4 @@ export const Select: React.FC<SelectProps> = ({ selectItem, onSelect, selected }
       {selectItem.name}
     </li>
   );
-};
+});

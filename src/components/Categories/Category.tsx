@@ -1,4 +1,4 @@
-import styles from './Category.module.scss';
+import styles from './Categories.module.scss';
 
 type CategoryProps = {
   category: string;
@@ -7,7 +7,7 @@ type CategoryProps = {
   onChangeCategory: (idx: number) => void;
 };
 
-//категории
+//категория
 export const Category: React.FC<CategoryProps> = ({
   category,
   selectedCategory,

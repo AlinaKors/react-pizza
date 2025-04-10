@@ -9,7 +9,7 @@ import IconBack from '../assets/img/back.svg?react';
 import { EmptyCart } from '../components/EmptyCart';
 import { CartItem } from '../components/CartItem';
 import { RootState } from '../store/store';
-import { BtnForCart } from '../components/BtnForCart';
+import { Button } from '../components/Button';
 import { ItemType, ProductType } from '../store/cart/types';
 
 export const Cart = () => {
@@ -46,13 +46,13 @@ export const Cart = () => {
           <img src="src/assets/img/cartBig.png" alt="cart icon" />
           <h1>Корзина</h1>
         </div>
-        <BtnForCart
+        <Button
           handleClick={handleClearCart}
           textBtn={'Очистить корзину'}
           classNameBtn={'deleteItems'}
         >
           <IconDelete />
-        </BtnForCart>
+        </Button>
       </div>
       <div className="cartItems">
         <ul>
@@ -77,11 +77,11 @@ export const Cart = () => {
       </div>
       <div className="cartBottom">
         <Link to="/">
-          <BtnForCart textBtn={'Вернуться назад'} classNameBtn={'backBtn'}>
+          <Button textBtn={'Вернуться назад'} classNameBtn={'backBtn'}>
             <IconBack />
-          </BtnForCart>
+          </Button>
         </Link>
-        <BtnForCart textBtn={'Оплатить сейчас'} classNameBtn={'orderBtn'} />
+        <Button textBtn={'Оплатить сейчас'} classNameBtn={'orderBtn'} />
       </div>
     </div>
   ) : (

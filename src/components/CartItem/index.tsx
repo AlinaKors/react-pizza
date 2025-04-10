@@ -1,6 +1,4 @@
 import { FC } from 'react';
-import { useDispatch } from 'react-redux';
-
 import styles from './CartItem.module.scss';
 
 import IconAdd from '../../assets/img/plus.svg?react';
@@ -9,7 +7,7 @@ import IconMinus from '../../assets/img/minus.svg?react';
 import { typePizza } from '../../utils/initialParams';
 
 import { ItemType, ProductType } from '@/src/store/cart/types';
-import { BtnForCart } from '../BtnForCart';
+import { Button } from '../Button';
 
 type CartItemProps = {
   product: ProductType;
@@ -18,6 +16,7 @@ type CartItemProps = {
   handleAddProduct: (product: ProductType) => void;
 };
 
+//Позиции в корзине
 export const CartItem: FC<CartItemProps> = ({
   product,
   handleDeleteAllProduct,
@@ -38,21 +37,18 @@ export const CartItem: FC<CartItemProps> = ({
         </div>
       </div>
       <div className={styles.countBlock}>
-        <BtnForCart classNameBtn={'minus'} handleClick={() => handleDeleteProduct(product, item)}>
+        <Button classNameBtn={'minus'} handleClick={() => handleDeleteProduct(product, item)}>
           <IconMinus />
-        </BtnForCart>
+        </Button>
         <h2>{item.count}</h2>
-        <BtnForCart classNameBtn={'plus'} handleClick={() => handleAddProduct(product)}>
+        <Button classNameBtn={'plus'} handleClick={() => handleAddProduct(product)}>
           <IconAdd />
-        </BtnForCart>
+        </Button>
       </div>
       <h2 className={styles.price}>{item.price * item.count} ₽</h2>
-      <BtnForCart
-        classNameBtn={'deleteBtn'}
-        handleClick={() => handleDeleteAllProduct(product, item)}
-      >
+      <Button classNameBtn={'deleteBtn'} handleClick={() => handleDeleteAllProduct(product, item)}>
         <IconAdd />
-      </BtnForCart>
+      </Button>
     </li>
   );
 };

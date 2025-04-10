@@ -1,7 +1,8 @@
-import styles from './HeaderLogo.module.scss';
+import { memo } from 'react';
+import styles from './Header.module.scss';
 
 //логотип
-export const HeaderLogo = () => {
+export const HeaderLogo = memo(() => {
   return (
     <div className={styles.logo}>
       <img src="src/assets/img/logo.png" alt="small pizza" />
@@ -11,4 +12,4 @@ export const HeaderLogo = () => {
       </div>
     </div>
   );
-};
+});

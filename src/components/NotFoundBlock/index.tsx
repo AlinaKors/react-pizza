@@ -1,6 +1,7 @@
+import { memo } from 'react';
 import styles from './NotFoundBlock.module.scss';
 
-export const NotFoundBlock = () => {
+export const NotFoundBlock = memo(() => {
   return (
     <div className={styles.notFoundBlock}>
       <h1>404</h1>
@@ -8,4 +9,4 @@ export const NotFoundBlock = () => {
       <p>Извините, но страницы, которую вы ищите, не существует.</p>
     </div>
   );
-};
+});

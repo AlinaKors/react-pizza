@@ -1,3 +1,20 @@
+header {
+  border-bottom: #f6f6f6 1px solid;
+  display: flex;
+  justify-content: space-between;
+  padding: 48px 40px 32px 80px;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    padding: 48px 40px 32px 40px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 375px) {
+    padding: 24px 20px 32px 20px;
+  }
+}
+
 .logo {
   display: flex;
   min-width: 316px;

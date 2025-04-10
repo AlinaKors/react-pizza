@@ -1,6 +1,8 @@
 import { Link } from 'react-router';
 import styles from './EmptyCart.module.scss';
+import { Button } from '../Button';
 
+//пустая корзина
 export const EmptyCart = () => {
   return (
     <div className={styles.emptyWrapper}>
@@ -13,7 +15,7 @@ export const EmptyCart = () => {
       </p>
       <img src="src/assets/img/emptyCart.png" alt="people with cart" />
       <Link to="/">
-        <button className={styles.backBtn}>Вернуться назад</button>
+        <Button classNameBtn={'backBtn'} textBtn={'Вернуться назад'} />
       </Link>
     </div>
   );

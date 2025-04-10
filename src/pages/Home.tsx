@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import { useEffect, useState } from 'react';
 import { Pagination } from '@mui/material';
@@ -6,18 +6,20 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router';
 
-import { Categories } from '../containers/Categories';
 import { PizzaItem } from '../containers/PizzaItem';
-import { Sort } from '../containers/Sort';
-import { SkeletonBlock } from '../containers/SkeletonBlock';
+import { Sort } from '../components/Sort';
+import { SkeletonBlock } from '../components/Shared/SkeletonBlock';
 import { NotFoundBlock } from '../components/NotFoundBlock';
 import { initialParams } from '../utils/initialParams';
 import { isEqual } from '../utils/isEqual';
 
 import { setCurrentPage, setInitialFilter } from '../store/filter/slice';
 import { fetchByPizzas } from '../store/pizza/AsyncActions';
-import { RootState, useAppDispatch } from '../store/store';
+import { useAppDispatch } from '../store/store';
 import { Status } from '../store/pizza/types';
+import { Categories } from '../components/Categories';
+import { selectFilter } from '../store/filter/selectors';
+import { selectPizza } from '../store/pizza/selectors';
 
 //тема для пагинации
 const theme = createTheme({
@@ -32,27 +34,26 @@ const theme = createTheme({
 export const Home = () => {
   const dispatch = useAppDispatch();
 
-  const [searchParams, setSearchParams] = useSearchParams(); //query параметры
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [totalPages, setTotalPages] = useState(0);
+  const previousParamsRef = useRef<string>();
 
-  const { selectedCategory, desc, sort, search, currentPage } = useSelector(
-    (state: RootState) => state.filter,
-  ); //параметры фильтрации в стейте
-
-  const [totalPages, setTotalPages] = useState<number>(0);
-
-  const { items, status } = useSelector((state: RootState) => state.pizza); //пиццы в стейте
+  const { selectedCategory, desc, sort, search, currentPage } = useSelector(selectFilter);
+  const { items, status } = useSelector(selectPizza);
 
   //обращаемся к бэку и получаем пиццы + получаем количество страниц для определенной фильтрации
-  const getPizzas = async () => {
-    const { meta } = await dispatch(fetchByPizzas(searchParams)).unwrap();
-    meta && setTotalPages(meta.total_pages);
-    meta && currentPage && meta.total_pages < currentPage && dispatch(setCurrentPage(1));
-  };
-
+  const getPizzas = useCallback(
+    async (params: URLSearchParams | string) => {
+      const { meta } = await dispatch(fetchByPizzas(params)).unwrap();
+      meta && setTotalPages(meta.total_pages);
+      meta && currentPage && meta.total_pages < currentPage && dispatch(setCurrentPage(1));
+    },
+    [dispatch, currentPage],
+  );
   //устанавливаем query параметры в соответствии со стейтом фильтрации
-  const getParamsFilter = () => {
+  const getParamsFilter = useCallback(() => {
     const sortCategory = selectedCategory === 0 ? '*' : selectedCategory?.toString();
-    const sortByParams = desc ? '-' + sort?.sortParams : sort?.sortParams;
+    const sortByParams = desc ? `-${sort?.sortParams}` : sort?.sortParams;
     const searchInput = search ? `*${search}` : '*';
     const pageParams = currentPage && currentPage > 1 ? `${currentPage}` : '1';
 
@@ -64,33 +65,48 @@ export const Home = () => {
         page: pageParams,
         title: searchInput,
       });
-  };
+  }, [currentPage, desc, search, selectedCategory, setSearchParams, sort?.sortParams]);
 
   //устанавливаем пустые query параметры (при переходе на главную страницу или при переходе на категорию "Все")
-  const emptyParams = () => {
+  const emptyParams = useCallback(() => {
     setSearchParams({});
-  };
+  }, [setSearchParams]);
 
   //обращение к бэку при изменениях в фильтрах
   useEffect(() => {
-    getPizzas();
+    const currentParams = searchParams.toString();
 
-    if (!searchParams.size) {
-      dispatch(setInitialFilter(initialParams));
+    if (previousParamsRef.current !== currentParams) {
+      previousParamsRef.current = currentParams;
+
+      const defaultParams = 'category=*&sortBy=rating&page=1&title=*';
+      if (!searchParams.size) {
+        getPizzas(defaultParams);
+        dispatch(setInitialFilter(initialParams));
+      } else {
+        getPizzas(searchParams);
+      }
     }
-  }, [searchParams]);
+  }, [searchParams, dispatch, getPizzas]);
 
   //изменение query параметров при изменение их в стейте
   useEffect(() => {
     isEqual(initialParams, { selectedCategory, desc, sort, search, currentPage })
       ? emptyParams()
       : getParamsFilter();
-  }, [selectedCategory, desc, sort, search, currentPage]);
+  }, [selectedCategory, desc, sort, search, currentPage, emptyParams, getParamsFilter]);
 
-  const pizzasBlock =
-    items.length && items.map((pizzaItem) => <PizzaItem {...pizzaItem} key={pizzaItem.id} />);
+  const renderPizzas = () => {
+    if (status === Status.LOADING) {
+      return [...new Array(4)].map((_, i) => <SkeletonBlock key={i} />);
+    }
 
-  const skeletons = [...new Array(8)].map((_, index) => <SkeletonBlock key={index} />);
+    if (status === Status.SUCCESS && items.length === 0) {
+      return <p className="noResults">Ничего не найдено 😕</p>;
+    }
+
+    return items.map((pizza) => <PizzaItem key={pizza.id} {...pizza} />);
+  };
 
   return (
     <main>
@@ -99,8 +115,8 @@ export const Home = () => {
         <Sort sort={sort} desc={desc} />
       </div>
       <h1>Все пиццы</h1>
-      <div className={totalPages === 0 ? 'display-none' : 'pizzaWrapper'}>
-        <ul>{status === Status.SUCCESS ? pizzasBlock : skeletons}</ul>
+      <div className="pizzaWrapper">
+        <ul className={totalPages === 0 ? 'templateNone' : ''}>{renderPizzas()}</ul>
       </div>
       <ThemeProvider theme={theme}>
         {status !== Status.ERROR ? (
@@ -110,6 +126,7 @@ export const Home = () => {
             color="primary"
             onChange={(_, page) => dispatch(setCurrentPage(page))}
             page={currentPage}
+            className={totalPages === 0 ? 'display-none' : ''}
           />
         ) : (
           <NotFoundBlock />

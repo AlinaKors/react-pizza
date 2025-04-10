@@ -1,4 +1,4 @@
-import styles from './BtnForCart.module.scss';
+import styles from './Button.module.scss';
 type BtnForCartProps = {
   children?: React.ReactNode;
   handleClick?: () => void;
@@ -6,7 +6,8 @@ type BtnForCartProps = {
   classNameBtn: string;
 };
 
-export const BtnForCart: React.FC<BtnForCartProps> = ({
+//шаблон кнопок в корзине
+export const Button: React.FC<BtnForCartProps> = ({
   children,
   textBtn,
   classNameBtn,
