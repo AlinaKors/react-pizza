@@ -6,7 +6,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router';
 
-import { PizzaItem } from '../containers/PizzaItem';
+import { PizzaItem } from '../components/PizzaItem';
 import { Sort } from '../components/Sort';
 import { SkeletonBlock } from '../components/Shared/SkeletonBlock';
 import { NotFoundBlock } from '../components/NotFoundBlock';

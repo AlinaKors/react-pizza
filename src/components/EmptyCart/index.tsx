@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import styles from './EmptyCart.module.scss';
-import { Button } from '../Button';
+import { Button } from '../Shared/Button';
 
 //пустая корзина
 export const EmptyCart = () => {

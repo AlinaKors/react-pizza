@@ -9,7 +9,7 @@ import IconBack from '../assets/img/back.svg?react';
 import { EmptyCart } from '../components/EmptyCart';
 import { CartItem } from '../components/CartItem';
 import { RootState } from '../store/store';
-import { Button } from '../components/Button';
+import { Button } from '../components/Shared/Button';
 import { ItemType, ProductType } from '../store/cart/types';
 
 export const Cart = () => {

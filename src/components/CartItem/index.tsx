@@ -7,7 +7,7 @@ import IconMinus from '../../assets/img/minus.svg?react';
 import { typePizza } from '../../utils/initialParams';
 
 import { ItemType, ProductType } from '@/src/store/cart/types';
-import { Button } from '../Button';
+import { Button } from '../Shared/Button';
 
 type CartItemProps = {
   product: ProductType;
