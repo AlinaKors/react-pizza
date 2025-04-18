@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
 import filter from './filter/slice';
-import pizza from './pizza/slice';
 import cart from './cart/slice';
 import { useDispatch } from 'react-redux';
 import {
@@ -27,7 +26,6 @@ const persistedReducerCart = persistReducer(persistConfig, cart);
 export const store = configureStore({
   reducer: {
     filter,
-    pizza,
     persistedReducerCart,
     [pizzasApi.reducerPath]: pizzasApi.reducer,
   },

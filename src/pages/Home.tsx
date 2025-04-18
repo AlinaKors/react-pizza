@@ -14,12 +14,10 @@ import { initialParams } from '../utils/initialParams';
 import { isEqual } from '../utils/isEqual';
 
 import { setCurrentPage, setInitialFilter } from '../store/filter/slice';
-import { fetchByPizzas } from '../store/pizza/AsyncActions';
+import { useGetPizzasQuery } from '../store/pizza/AsyncActions';
 import { useAppDispatch } from '../store/store';
-import { Status } from '../store/pizza/types';
 import { Categories } from '../components/Categories';
 import { selectFilter } from '../store/filter/selectors';
-import { selectPizza } from '../store/pizza/selectors';
 
 //тема для пагинации
 const theme = createTheme({
@@ -39,17 +37,21 @@ export const Home = () => {
   const previousParamsRef = useRef<string>();
 
   const { selectedCategory, desc, sort, search, currentPage } = useSelector(selectFilter);
-  const { items, status } = useSelector(selectPizza);
 
-  //обращаемся к бэку и получаем пиццы + получаем количество страниц для определенной фильтрации
-  const getPizzas = useCallback(
-    async (params: URLSearchParams | string) => {
-      const { meta } = await dispatch(fetchByPizzas(params)).unwrap();
-      meta && setTotalPages(meta.total_pages);
-      meta && currentPage && meta.total_pages < currentPage && dispatch(setCurrentPage(1));
-    },
-    [dispatch, currentPage],
-  );
+  const queryString = searchParams.toString();
+
+  const { data, isLoading, error } = useGetPizzasQuery(queryString);
+
+  useEffect(() => {
+    if (data?.meta) {
+      setTotalPages(data.meta.total_pages);
+
+      if (currentPage && data.meta.total_pages < currentPage) {
+        dispatch(setCurrentPage(1));
+      }
+    }
+  }, [data, currentPage, dispatch]);
+
   //устанавливаем query параметры в соответствии со стейтом фильтрации
   const getParamsFilter = useCallback(() => {
     const sortCategory = selectedCategory === 0 ? '*' : selectedCategory?.toString();
@@ -79,15 +81,11 @@ export const Home = () => {
     if (previousParamsRef.current !== currentParams) {
       previousParamsRef.current = currentParams;
 
-      const defaultParams = 'category=*&sortBy=rating&page=1&title=*';
       if (!searchParams.size) {
-        getPizzas(defaultParams);
         dispatch(setInitialFilter(initialParams));
-      } else {
-        getPizzas(searchParams);
       }
     }
-  }, [searchParams, dispatch, getPizzas]);
+  }, [searchParams, dispatch]);
 
   //изменение query параметров при изменение их в стейте
   useEffect(() => {
@@ -97,15 +95,14 @@ export const Home = () => {
   }, [selectedCategory, desc, sort, search, currentPage, emptyParams, getParamsFilter]);
 
   const renderPizzas = () => {
-    if (status === Status.LOADING) {
+    if (isLoading) {
       return [...new Array(4)].map((_, i) => <SkeletonBlock key={i} />);
     }
 
-    if (status === Status.SUCCESS && items.length === 0) {
+    if (data?.items.length === 0) {
       return <p className="noResults">Ничего не найдено 😕</p>;
     }
-
-    return items.map((pizza) => <PizzaItem key={pizza.id} {...pizza} />);
+    return data?.items.map((pizza) => <PizzaItem key={pizza.id} {...pizza} />);
   };
 
   return (
@@ -119,7 +116,7 @@ export const Home = () => {
         <ul className={totalPages === 0 ? 'templateNone' : ''}>{renderPizzas()}</ul>
       </div>
       <ThemeProvider theme={theme}>
-        {status !== Status.ERROR ? (
+        {!error ? (
           <Pagination
             count={totalPages}
             variant="outlined"
