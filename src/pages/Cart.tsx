@@ -10,7 +10,8 @@ import { EmptyCart } from '../components/EmptyCart';
 import { CartItem } from '../components/CartItem';
 import { RootState } from '../store/store';
 import { Button } from '../components/Shared/Button';
-import { ItemType, ProductType } from '../store/cart/types';
+import { ItemType } from '../store/cart/types';
+import { calcTotalPrice } from '../utils/calcTotalPrice';
 
 export const Cart = () => {
   const dispatch = useDispatch();
@@ -19,25 +20,23 @@ export const Cart = () => {
     dispatch(clearCart());
   };
 
-  const { totalPrice, items, totalItems } = useSelector(
-    (state: RootState) => state.persistedReducerCart,
-  );
+  const { items, totalItems } = useSelector((state: RootState) => state.persistedReducerCart);
 
-  const handleDeleteAllProduct = (product: ProductType, item: ItemType) => {
+  const handleDeleteAllProduct = (item: ItemType) => {
     dispatch(
-      deleteAllProduct({ key: product.key, id: item.id, price: item.price, count: item.count }),
+      deleteAllProduct({ key: item.key, id: item.id, price: item.price, count: item.count }),
     );
   };
 
-  const handleDeleteProduct = (product: ProductType, item: ItemType) => {
-    dispatch(
-      deleteProduct({ key: product.key, id: item.id, price: item.price, count: item.count }),
-    );
+  const handleDeleteProduct = (item: ItemType) => {
+    dispatch(deleteProduct({ key: item.key, id: item.id, price: item.price, count: item.count }));
   };
 
-  const handleAddProduct = (product: ProductType) => {
+  const handleAddProduct = (product: ItemType) => {
     dispatch(addProduct(product));
   };
+
+  const totalPrice = calcTotalPrice(items);
 
   return totalItems ? (
     <div className="cartWrapper">

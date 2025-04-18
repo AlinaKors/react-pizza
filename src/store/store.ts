@@ -14,6 +14,7 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { pizzasApi } from './pizza/AsyncActions';
 
 const persistConfig = {
   key: 'cart',
@@ -28,13 +29,14 @@ export const store = configureStore({
     filter,
     pizza,
     persistedReducerCart,
+    [pizzasApi.reducerPath]: pizzasApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(pizzasApi.middleware),
 });
 
 export const persister = persistStore(store);

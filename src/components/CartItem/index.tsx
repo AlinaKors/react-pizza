@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import styles from './CartItem.module.scss';
 
 import IconAdd from '../../assets/img/plus.svg?react';
@@ -6,49 +6,44 @@ import IconAdd from '../../assets/img/plus.svg?react';
 import IconMinus from '../../assets/img/minus.svg?react';
 import { typePizza } from '../../utils/initialParams';
 
-import { ItemType, ProductType } from '@/src/store/cart/types';
+import { ItemType } from '@/src/store/cart/types';
 import { Button } from '../Shared/Button';
 
 type CartItemProps = {
-  product: ProductType;
-  handleDeleteAllProduct: (product: ProductType, item: ItemType) => void;
-  handleDeleteProduct: (product: ProductType, item: ItemType) => void;
-  handleAddProduct: (product: ProductType) => void;
+  product: ItemType;
+  handleDeleteAllProduct: (item: ItemType) => void;
+  handleDeleteProduct: (item: ItemType) => void;
+  handleAddProduct: (product: ItemType) => void;
 };
 
 //Позиции в корзине
-export const CartItem: FC<CartItemProps> = ({
-  product,
-  handleDeleteAllProduct,
-  handleDeleteProduct,
-  handleAddProduct,
-}) => {
-  const { item } = product;
-
-  return (
-    <li>
-      <div className={styles.cartItemInfo}>
-        <img src={item.imageUrl} alt="pizza" />
-        <div className={styles.namePizza}>
-          <h2>{item.title}</h2>
-          <p>
-            {typePizza[item.type]}, {item.size} см.
-          </p>
+export const CartItem: FC<CartItemProps> = memo(
+  ({ product, handleDeleteAllProduct, handleDeleteProduct, handleAddProduct }) => {
+    return (
+      <li>
+        <div className={styles.cartItemInfo}>
+          <img src={product.imageUrl} alt="pizza" />
+          <div className={styles.namePizza}>
+            <h2>{product.title}</h2>
+            <p>
+              {typePizza[product.type]}, {product.size} см.
+            </p>
+          </div>
         </div>
-      </div>
-      <div className={styles.countBlock}>
-        <Button classNameBtn={'minus'} handleClick={() => handleDeleteProduct(product, item)}>
-          <IconMinus />
-        </Button>
-        <h2>{item.count}</h2>
-        <Button classNameBtn={'plus'} handleClick={() => handleAddProduct(product)}>
+        <div className={styles.countBlock}>
+          <Button classNameBtn={'minus'} handleClick={() => handleDeleteProduct(product)}>
+            <IconMinus />
+          </Button>
+          <h2>{product.count}</h2>
+          <Button classNameBtn={'plus'} handleClick={() => handleAddProduct(product)}>
+            <IconAdd />
+          </Button>
+        </div>
+        <h2 className={styles.price}>{product.price * product.count} ₽</h2>
+        <Button classNameBtn={'deleteBtn'} handleClick={() => handleDeleteAllProduct(product)}>
           <IconAdd />
         </Button>
-      </div>
-      <h2 className={styles.price}>{item.price * item.count} ₽</h2>
-      <Button classNameBtn={'deleteBtn'} handleClick={() => handleDeleteAllProduct(product, item)}>
-        <IconAdd />
-      </Button>
-    </li>
-  );
-};
+      </li>
+    );
+  },
+);

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import styles from './Button.module.scss';
 type BtnForCartProps = {
   children?: React.ReactNode;
@@ -7,16 +8,13 @@ type BtnForCartProps = {
 };
 
 //шаблон кнопок в корзине
-export const Button: React.FC<BtnForCartProps> = ({
-  children,
-  textBtn,
-  classNameBtn,
-  handleClick,
-}) => {
-  return (
-    <button className={styles[classNameBtn]} onClick={handleClick}>
-      {children}
-      <span>{textBtn}</span>
-    </button>
-  );
-};
+export const Button: React.FC<BtnForCartProps> = memo(
+  ({ children, textBtn, classNameBtn, handleClick }) => {
+    return (
+      <button className={styles[classNameBtn]} onClick={handleClick}>
+        {children}
+        <span>{textBtn}</span>
+      </button>
+    );
+  },
+);

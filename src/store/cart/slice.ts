@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { DeleteItem, ICartSliceState, ProductType } from './types';
+import { DeleteItem, ICartSliceState, ItemType } from './types';
 
 const initialState: ICartSliceState = {
-  totalPrice: 0,
   totalItems: 0,
   items: [],
   countItems: [],
@@ -14,30 +13,24 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     //добавление в корзину
-    addProduct: (state, action: PayloadAction<ProductType>) => {
+    addProduct: (state, action: PayloadAction<ItemType>) => {
       state.totalItems++;
-      state.totalPrice += action.payload.item.price;
 
       const findProduct = state.items.find((item) => item.key === action.payload.key);
 
-      state.items.length && findProduct
-        ? findProduct.item.count++
-        : state.items.push(action.payload);
+      state.items.length && findProduct ? findProduct.count++ : state.items.push(action.payload);
 
-      const findCount = state.countItems.find((item) => item.id === action.payload.item.id);
-      findCount
-        ? findCount.count++
-        : state.countItems.push({ id: action.payload.item.id, count: 1 });
+      const findCount = state.countItems.find((item) => item.id === action.payload.id);
+      findCount ? findCount.count++ : state.countItems.push({ id: action.payload.id, count: 1 });
     },
     //удаление с корзины одной единицы позиции
     deleteProduct: (state, action: PayloadAction<DeleteItem>) => {
       state.totalItems--;
-      state.totalPrice -= action.payload.price;
 
       const findProduct = state.items.find((item) => item.key === action.payload.key);
 
-      findProduct && findProduct.item.count !== 1
-        ? findProduct.item.count--
+      findProduct && findProduct.count !== 1
+        ? findProduct.count--
         : (state.items = state.items.filter((item) => item.key !== action.payload.key));
 
       const findCount = state.countItems.find((item) => item.id === action.payload.id);
@@ -54,13 +47,11 @@ const cartSlice = createSlice({
         ? (findCount.count -= action.payload.count)
         : (state.countItems = state.countItems.filter((item) => item.id !== action.payload.id));
       state.totalItems -= action.payload.count;
-      state.totalPrice -= action.payload.price * action.payload.count;
     },
     //очистка корзины
     clearCart: (state) => {
       state.items = [];
       state.totalItems = 0;
-      state.totalPrice = 0;
       state.countItems = [];
     },
   },

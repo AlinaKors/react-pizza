@@ -2,7 +2,7 @@ import { FC, useCallback } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProduct } from '../../store/cart/slice';
-import { ProductType } from '../../store/cart/types';
+import { ItemType } from '../../store/cart/types';
 import { selectCart } from '../../store/cart/selectors';
 import { PizzaItemProps } from './types';
 
@@ -22,18 +22,33 @@ export const PizzaItem: FC<PizzaItemProps> = ({ imageUrl, title, types, id, size
   const price = prices[selectedSize];
 
   //добавление пицц в корзину
+  // const handleAddToCart = useCallback(() => {
+  //   const product: ProductType = {
+  //     key: `${id}${selectedSize}${selectedType}`,
+  //     item: {
+  //       id,
+  //       title,
+  //       price: price,
+  //       imageUrl,
+  //       size: selectedSize,
+  //       type: selectedType,
+  //       count: 1,
+  //     },
+  //   };
+  //   dispatch(addProduct(product));
+  // }, [dispatch, id, title, imageUrl, selectedSize, selectedType, price]);
+
+  //добавление пицц в корзину
   const handleAddToCart = useCallback(() => {
-    const product: ProductType = {
+    const product: ItemType = {
+      id,
+      title,
+      price: price,
+      imageUrl,
+      size: selectedSize,
+      type: selectedType,
+      count: 1,
       key: `${id}${selectedSize}${selectedType}`,
-      item: {
-        id,
-        title,
-        price: price,
-        imageUrl,
-        size: selectedSize,
-        type: selectedType,
-        count: 1,
-      },
     };
     dispatch(addProduct(product));
   }, [dispatch, id, title, imageUrl, selectedSize, selectedType, price]);
