@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import styles from './CartBtn.module.scss';
+import cartIcon from '../../assets/img/cart.svg';
 
 type CartBtnComponentProps = {
   totalItems: number;
@@ -13,7 +14,7 @@ export const CartBtnComponent: React.FC<CartBtnComponentProps> = memo(
       <div className={styles.cartContaner}>
         <div className={styles.price}>{totalPrice} ₽</div>
         <div className={styles.cart}>
-          <img src="src/assets/img/cart.svg" alt="cart icon" />
+          <img src={cartIcon} alt="cart icon" />
           <span>{totalItems}</span>
         </div>
       </div>

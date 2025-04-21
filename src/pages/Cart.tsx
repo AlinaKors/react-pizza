@@ -5,13 +5,14 @@ import { addProduct, clearCart, deleteAllProduct, deleteProduct } from '../store
 
 import IconDelete from '../assets/img/cartDelete.svg?react';
 import IconBack from '../assets/img/back.svg?react';
+import cartBig from '../assets/img/cartBig.png';
 
 import { EmptyCart } from '../components/EmptyCart';
 import { CartItem } from '../components/CartItem';
 import { RootState } from '../store/store';
 import { Button } from '../components/Shared/Button';
 import { ItemType } from '../store/cart/types';
-import { calcTotalPrice } from '../utils/calcTotalPrice';
+import { calcTotal } from '../utils/calcTotal';
 
 export const Cart = () => {
   const dispatch = useDispatch();
@@ -36,13 +37,13 @@ export const Cart = () => {
     dispatch(addProduct(product));
   };
 
-  const totalPrice = calcTotalPrice(items);
+  const { totalPrice } = calcTotal(items);
 
   return totalItems ? (
     <div className="cartWrapper">
       <div className="cartTop">
         <div className="cartName">
-          <img src="src/assets/img/cartBig.png" alt="cart icon" />
+          <img src={cartBig} alt="cart icon" />
           <h1>Корзина</h1>
         </div>
         <Button

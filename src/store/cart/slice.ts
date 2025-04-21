@@ -14,11 +14,11 @@ const cartSlice = createSlice({
   reducers: {
     //добавление в корзину
     addProduct: (state, action: PayloadAction<ItemType>) => {
-      const { key, id, count } = action.payload;
+      const { key, id } = action.payload;
       const findProduct = state.items.find((item) => item.key === key);
 
       //Добавление пиццы по ее id
-      state.countItems[id] = count + 1;
+      state.countItems[id] = state.countItems[id] + 1 || 1;
       //Добавление пиццы по ее id и типу\размеру
       state.items.length && findProduct ? findProduct.count++ : state.items.push(action.payload);
       //Добавление общего числа элементов
@@ -27,11 +27,11 @@ const cartSlice = createSlice({
 
     //удаление с корзины одной единицы позиции
     deleteProduct: (state, action: PayloadAction<DeleteItem>) => {
-      const { key, id, count } = action.payload;
+      const { key, id } = action.payload;
       const findProduct = state.items.find((item) => item.key === key);
 
       //Удаление пиццы по ее id
-      state.countItems[id] = count - 1;
+      state.countItems[id] = state.countItems[id] - 1 || 1;
       //Удаление пиццы по ее id и типу\размеру
       findProduct && findProduct.count !== 1
         ? findProduct.count--

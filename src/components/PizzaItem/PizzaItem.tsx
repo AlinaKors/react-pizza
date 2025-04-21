@@ -15,6 +15,7 @@ export const PizzaItem: FC<PizzaItemProps> = ({ imageUrl, title, types, id, size
   const [typeInput, setTypeInput] = useState(0);
 
   const { countItems } = useSelector(selectCart);
+
   const countAdd = countItems[id] || 0;
 
   const selectedSize = sizes[sizeInput];
