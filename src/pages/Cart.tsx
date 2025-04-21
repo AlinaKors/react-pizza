@@ -5,6 +5,7 @@ import { addProduct, clearCart, deleteAllProduct, deleteProduct } from '../store
 
 import IconDelete from '../assets/img/cartDelete.svg?react';
 import IconBack from '../assets/img/back.svg?react';
+import cartBig from '../assets/img/cartBig.png';
 
 import { EmptyCart } from '../components/EmptyCart';
 import { CartItem } from '../components/CartItem';
@@ -42,7 +43,7 @@ export const Cart = () => {
     <div className="cartWrapper">
       <div className="cartTop">
         <div className="cartName">
-          <img src="src/assets/img/cartBig.png" alt="cart icon" />
+          <img src={cartBig} alt="cart icon" />
           <h1>Корзина</h1>
         </div>
         <Button

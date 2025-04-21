@@ -1,13 +1,13 @@
 import { useSelector } from 'react-redux';
 import { selectCart } from '../../store/cart/selectors';
 import { CartBtnComponent } from './CartBtnComponent';
-import { calcTotalPrice } from '../../utils/calcTotalPrice';
+import { calcTotal } from '../../utils/calcTotal';
 
 //кнопка для перехода в корзину
 export const CartBtn = () => {
-  const { totalItems, items } = useSelector(selectCart);
+  const { items } = useSelector(selectCart);
 
-  const totalPrice = calcTotalPrice(items);
+  const { totalPrice, totalItems } = calcTotal(items);
 
   return <CartBtnComponent totalPrice={totalPrice} totalItems={totalItems} />;
 };

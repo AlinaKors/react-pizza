@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { changeSort, toggleSort } from '../../store/filter/slice';
 
-import { SortTypeBy } from '@/src/store/filter/types';
+import { SortTypeBy } from '../../store/filter/types';
 import { SortComponent } from './SortComponent';
 
 export type SortProps = {

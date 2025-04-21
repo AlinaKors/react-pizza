@@ -1,9 +1,19 @@
 declare module '*.module.scss' {
-  const content: any;
+  const content: { [className: string]: string };
   export default content;
 }
 
 declare module '*.svg?react' {
-  const content: any;
+  const content: string;
+  export default content;
+}
+
+declare module '*.svg' {
+  const content: string;
+  export default content;
+}
+
+declare module '*.png' {
+  const content: string;
   export default content;
 }
