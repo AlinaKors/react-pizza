@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IFilterSliceState, SortTypeBy } from './types';
-import { getInitialState } from './setInitialParams';
+import { getInitialState } from '../../utils/helpers';
 
 const paramsQuery = new URLSearchParams(window.location.search);
 

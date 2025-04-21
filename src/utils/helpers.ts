@@ -1,10 +1,9 @@
-import { initialParams } from '../../utils/initialParams';
-import { setSort } from './setSort';
-import { IFilterSliceState, SortType } from './types';
+import { initialParams, sortBy } from '../utils/constants';
+import { IFilterSliceState, SortType, SortTypeBy } from '../store/filter/types';
 
 //установка начальных фильтров даже при обновлении
 export const getInitialState = (paramsQuery: URLSearchParams): IFilterSliceState => {
-  let params: SortType = {
+  const params: SortType = {
     sortBy: 'raiting',
     category: '*',
     title: '*',
@@ -31,4 +30,14 @@ export const getInitialState = (paramsQuery: URLSearchParams): IFilterSliceState
     return initialParams;
   }
   return initialParams;
+};
+
+//установка сортировки из параметров
+const setSort = (sortParams: string): SortTypeBy => {
+  const sort = sortBy.find((obj) => obj.sortParams === sortParams);
+  if (sort !== undefined) {
+    return sort;
+  } else {
+    return { name: 'популярности', sortParams: 'rating' };
+  }
 };

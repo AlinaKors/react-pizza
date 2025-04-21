@@ -2,7 +2,7 @@ import { memo } from 'react';
 import styles from './PizzaItem.module.scss';
 import { InputRadioGroup } from '../Shared/InputRadioGroup';
 import { PizzaTypeProps } from './types';
-import { typePizza } from '../../utils/initialParams';
+import { typePizza } from '../../utils/constants';
 
 export const PizzaType: React.FC<PizzaTypeProps> = memo(
   ({ id, types, sizes, typeInput, setTypeInput, sizeInput, setSizeInput }) => {

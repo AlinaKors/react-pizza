@@ -10,14 +10,16 @@ import { PizzaItem } from '../components/PizzaItem';
 import { Sort } from '../components/Sort';
 import { SkeletonBlock } from '../components/Shared/SkeletonBlock';
 import { NotFoundBlock } from '../components/NotFoundBlock';
-import { initialParams } from '../utils/initialParams';
+
 import { isEqual } from '../utils/isEqual';
 
 import { setCurrentPage, setInitialFilter } from '../store/filter/slice';
-import { useGetPizzasQuery } from '../store/pizza/AsyncActions';
+
 import { useAppDispatch } from '../store/store';
 import { Categories } from '../components/Categories';
 import { selectFilter } from '../store/filter/selectors';
+import { useGetPizzasQuery } from '../api/pizza';
+import { initialParams } from '../utils/constants';
 
 //тема для пагинации
 const theme = createTheme({

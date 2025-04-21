@@ -15,28 +15,11 @@ export const PizzaItem: FC<PizzaItemProps> = ({ imageUrl, title, types, id, size
   const [typeInput, setTypeInput] = useState(0);
 
   const { countItems } = useSelector(selectCart);
-  const countAdd = countItems.find((item) => item.id === id)?.count || 0;
+  const countAdd = countItems[id] || 0;
 
   const selectedSize = sizes[sizeInput];
   const selectedType = types[typeInput];
   const price = prices[selectedSize];
-
-  //добавление пицц в корзину
-  // const handleAddToCart = useCallback(() => {
-  //   const product: ProductType = {
-  //     key: `${id}${selectedSize}${selectedType}`,
-  //     item: {
-  //       id,
-  //       title,
-  //       price: price,
-  //       imageUrl,
-  //       size: selectedSize,
-  //       type: selectedType,
-  //       count: 1,
-  //     },
-  //   };
-  //   dispatch(addProduct(product));
-  // }, [dispatch, id, title, imageUrl, selectedSize, selectedType, price]);
 
   //добавление пицц в корзину
   const handleAddToCart = useCallback(() => {

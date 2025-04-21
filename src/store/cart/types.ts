@@ -1,8 +1,3 @@
-// export type ProductType = {
-//   key: string;
-//   item: ItemType;
-// };
-
 export type ItemType = {
   count: number;
   id: number;
@@ -21,13 +16,8 @@ export type DeleteItem = {
   count: number;
 };
 
-type CountItems = {
-  count: number;
-  id: number;
-};
-
 export interface ICartSliceState {
   totalItems: number;
   items: ItemType[];
-  countItems: CountItems[];
+  countItems: Record<number, number>;
 }

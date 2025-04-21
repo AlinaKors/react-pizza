@@ -13,7 +13,7 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { pizzasApi } from './pizza/AsyncActions';
+import { pizzasApi } from '../api/pizza';
 
 const persistConfig = {
   key: 'cart',

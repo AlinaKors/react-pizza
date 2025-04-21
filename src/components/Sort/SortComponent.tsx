@@ -2,9 +2,10 @@ import { memo } from 'react';
 import { Select } from '../Shared/Select';
 import { TriangleToggle } from '../Shared/TriangleToggle';
 import { SortSelected } from './SortSelected';
-import { sortBy } from '../../utils/initialParams';
+
 import { SortTypeBy } from '../../store/filter/types';
 import styles from './Sort.module.scss';
+import { sortBy } from '../../utils/constants';
 
 type SortComponent = {
   isOpen: boolean;

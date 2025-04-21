@@ -4,10 +4,10 @@ import styles from './CartItem.module.scss';
 import IconAdd from '../../assets/img/plus.svg?react';
 
 import IconMinus from '../../assets/img/minus.svg?react';
-import { typePizza } from '../../utils/initialParams';
 
-import { ItemType } from '@/src/store/cart/types';
+import { ItemType } from '../../store/cart/types';
 import { Button } from '../Shared/Button';
+import { typePizza } from '../../utils/constants';
 
 type CartItemProps = {
   product: ItemType;

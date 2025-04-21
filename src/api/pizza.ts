@@ -1,5 +1,5 @@
-import { ReturnDara } from './types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { ReturnDara } from './types';
 
 //достаем пиццы с бэка
 export const pizzasApi = createApi({

@@ -4,7 +4,7 @@ import { DeleteItem, ICartSliceState, ItemType } from './types';
 const initialState: ICartSliceState = {
   totalItems: 0,
   items: [],
-  countItems: [],
+  countItems: {},
 };
 
 //состояние корзины
@@ -14,46 +14,46 @@ const cartSlice = createSlice({
   reducers: {
     //добавление в корзину
     addProduct: (state, action: PayloadAction<ItemType>) => {
-      state.totalItems++;
+      const { key, id, count } = action.payload;
+      const findProduct = state.items.find((item) => item.key === key);
 
-      const findProduct = state.items.find((item) => item.key === action.payload.key);
-
+      //Добавление пиццы по ее id
+      state.countItems[id] = count + 1;
+      //Добавление пиццы по ее id и типу\размеру
       state.items.length && findProduct ? findProduct.count++ : state.items.push(action.payload);
-
-      const findCount = state.countItems.find((item) => item.id === action.payload.id);
-      findCount ? findCount.count++ : state.countItems.push({ id: action.payload.id, count: 1 });
+      //Добавление общего числа элементов
+      state.totalItems++;
     },
+
     //удаление с корзины одной единицы позиции
     deleteProduct: (state, action: PayloadAction<DeleteItem>) => {
-      state.totalItems--;
+      const { key, id, count } = action.payload;
+      const findProduct = state.items.find((item) => item.key === key);
 
-      const findProduct = state.items.find((item) => item.key === action.payload.key);
-
+      //Удаление пиццы по ее id
+      state.countItems[id] = count - 1;
+      //Удаление пиццы по ее id и типу\размеру
       findProduct && findProduct.count !== 1
         ? findProduct.count--
-        : (state.items = state.items.filter((item) => item.key !== action.payload.key));
-
-      const findCount = state.countItems.find((item) => item.id === action.payload.id);
-      findCount && findCount.count !== 1
-        ? findCount.count--
-        : (state.countItems = state.countItems.filter((item) => item.id !== action.payload.id));
+        : (state.items = state.items.filter((item) => item.key !== key));
+      //Удаление общего числа элементов
+      state.totalItems--;
     },
+
     //удаление с корзины целой позиции
     deleteAllProduct: (state, action: PayloadAction<DeleteItem>) => {
-      state.items = state.items.filter((item) => item.key !== action.payload.key);
-      const findCount = state.countItems.find((item) => item.id === action.payload.id);
+      const { key, id, count } = action.payload;
 
-      findCount && findCount.count !== action.payload.count
-        ? (findCount.count -= action.payload.count)
-        : (state.countItems = state.countItems.filter((item) => item.id !== action.payload.id));
-      state.totalItems -= action.payload.count;
+      //Удаление пиццы по ее id
+      state.items = state.items.filter((item) => item.key !== key);
+      //Удаление пиццы по ее id и типу\размеру
+      delete state.countItems[id];
+      //Удаление общего числа элементов
+      state.totalItems -= count;
     },
+
     //очистка корзины
-    clearCart: (state) => {
-      state.items = [];
-      state.totalItems = 0;
-      state.countItems = [];
-    },
+    clearCart: () => initialState,
   },
 });
 

@@ -14,3 +14,5 @@ export const sortBy = [
 ];
 
 export const typePizza = ['традиционное', 'тонкое'];
+
+export const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые'];

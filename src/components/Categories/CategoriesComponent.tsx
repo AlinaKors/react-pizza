@@ -1,20 +1,20 @@
 import { memo } from 'react';
-import { Category } from './Category';
+import { CategoryComponent } from './CategoryComponent';
 import styles from './Categories.module.scss';
+import { categories } from '../../utils/constants';
 
 type CategoriesComponentProps = {
-  categories: string[];
   selectedCategory: number;
   onChangeCategory: (idx: number) => void;
 };
 
 export const CategoriesComponent: React.FC<CategoriesComponentProps> = memo(
-  ({ categories, selectedCategory, onChangeCategory }) => {
+  ({ selectedCategory, onChangeCategory }) => {
     return (
       <nav>
         <ul className={styles.categories}>
           {categories.map((category, idx) => (
-            <Category
+            <CategoryComponent
               key={category}
               category={category}
               selectedCategory={selectedCategory}
